@@ -389,15 +389,5 @@ const apiKey = 'sk_live_abc123...'; // Never do this!
 
 ---
 
-## 参考資料 / References
-
-- [Clean Code](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882)
-- [The Pragmatic Programmer](https://pragprog.com/titles/tpp20/the-pragmatic-programmer-20th-anniversary-edition/)
-- [Effective TypeScript](https://effectivetypescript.com/)
-- [Python PEP 8](https://peps.python.org/pep-0008/)
-- [Conventional Commits](https://www.conventionalcommits.org/)
-
----
-
 **最終更新**: 2025-10-14
 **バージョン**: 1.0.0
