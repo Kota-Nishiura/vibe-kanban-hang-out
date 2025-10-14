@@ -2,13 +2,21 @@ import { Task } from '../types/task';
 
 const STORAGE_KEY = 'todo-app:tasks';
 
+interface SerializedTask {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export function loadTasks(): Task[] {
   try {
     const data = localStorage.getItem(STORAGE_KEY);
     if (!data) return [];
 
-    const tasks = JSON.parse(data);
-    return tasks.map((task: any) => ({
+    const tasks: SerializedTask[] = JSON.parse(data);
+    return tasks.map((task: SerializedTask) => ({
       ...task,
       createdAt: new Date(task.createdAt),
       updatedAt: new Date(task.updatedAt),

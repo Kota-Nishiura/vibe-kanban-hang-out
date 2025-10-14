@@ -16,7 +16,7 @@ function App() {
     addTask(formData);
     // 最新のタスクを選択（タスク追加後に先頭に来るため）
     setTimeout(() => {
-      if (tasks.length >= 0) {
+      if (tasks.length > 0) {
         setSelectedTaskId(tasks[0]?.id || null);
       }
     }, 0);
