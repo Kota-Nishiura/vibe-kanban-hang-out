@@ -1,30 +1,48 @@
+import { useState } from 'react';
 import { useTasks } from './hooks/useTasks';
 import { TaskInput } from './components/TaskInput';
-import { TaskList } from './components/TaskList';
+import { Sidebar } from './components/Sidebar';
+import { TaskDetail } from './components/TaskDetail';
 
 function App() {
   const { tasks, addTask } = useTasks();
+  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
+
+  // 選択されているタスクを取得
+  const selectedTask = tasks.find(task => task.id === selectedTaskId) || null;
+
+  // 新しいタスクが作成されたら自動的に選択
+  const handleAddTask = (formData: { title: string; content: string }) => {
+    addTask(formData);
+    // 最新のタスクを選択（タスク追加後に先頭に来るため）
+    setTimeout(() => {
+      if (tasks.length >= 0) {
+        setSelectedTaskId(tasks[0]?.id || null);
+      }
+    }, 0);
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* ヘッダー */}
-      <header className="bg-white border-b px-4 py-4 sticky top-0 z-10">
-        <div className="max-w-3xl mx-auto">
-          <h1 className="text-2xl font-bold text-gray-900">TODO App</h1>
-        </div>
-      </header>
+    <div className="flex h-screen bg-white">
+      {/* サイドバー */}
+      <Sidebar
+        tasks={tasks}
+        selectedTaskId={selectedTaskId}
+        onSelectTask={setSelectedTaskId}
+      />
 
-      {/* タスク一覧エリア */}
-      <main className="flex-1 overflow-y-auto px-4 py-6">
-        <div className="max-w-3xl mx-auto">
-          <TaskList tasks={tasks} />
-        </div>
-      </main>
+      {/* メインコンテンツエリア */}
+      <div className="flex-1 flex flex-col">
+        {/* タスク詳細表示エリア */}
+        <main className="flex-1 overflow-y-auto bg-gray-50">
+          <TaskDetail task={selectedTask} />
+        </main>
 
-      {/* 入力フォームエリア（固定） */}
-      <footer className="sticky bottom-0">
-        <TaskInput onSubmit={addTask} />
-      </footer>
+        {/* 入力フォームエリア（固定） */}
+        <footer className="sticky bottom-0">
+          <TaskInput onSubmit={handleAddTask} />
+        </footer>
+      </div>
     </div>
   );
 }
