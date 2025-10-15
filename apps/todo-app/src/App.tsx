@@ -12,7 +12,7 @@ function App() {
   const selectedTask = tasks.find(task => task.id === selectedTaskId) || null;
 
   // 新しいタスクが作成されたら自動的に選択
-  const handleAddTask = (formData: { title: string; content: string }) => {
+  const handleAddTask = (formData: { title: string; content: string }): boolean => {
     const success = addTask(formData);
     if (success) {
       // 最新のタスクを選択（タスク追加後に先頭に来るため）
@@ -22,6 +22,7 @@ function App() {
         }
       }, 0);
     }
+    return success;
   };
 
   return (
