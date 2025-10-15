@@ -89,4 +89,20 @@ describe('TaskInput', () => {
 
     expect(titleInput.value).toBe('テストタスク');
   });
+
+  test('内容なしでもタスクを作成できる', async () => {
+    const onSubmit = vi.fn().mockReturnValue(true);
+    render(<TaskInput onSubmit={onSubmit} />);
+
+    const titleInput = screen.getByPlaceholderText('タスクのタイトル');
+    const submitButton = screen.getByText('作成');
+
+    await userEvent.type(titleInput, 'タイトルのみ');
+    await userEvent.click(submitButton);
+
+    expect(onSubmit).toHaveBeenCalledWith({
+      title: 'タイトルのみ',
+      content: '',
+    });
+  });
 });

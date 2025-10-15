@@ -8,17 +8,15 @@ interface TaskListProps {
 export function TaskList({ tasks }: TaskListProps) {
   if (tasks.length === 0) {
     return (
-      <div className="text-center py-12">
-        <p className="text-gray-500 text-lg">タスクがありません</p>
-        <p className="text-gray-400 text-sm mt-2">
-          下のフォームから新しいタスクを作成してください
-        </p>
+      <div className="text-center py-12 text-gray-500">
+        <p>タスクがありません</p>
+        <p className="text-sm mt-2">下のフォームから作成してください</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {tasks.map((task) => (
         <TaskItem key={task.id} task={task} />
       ))}
