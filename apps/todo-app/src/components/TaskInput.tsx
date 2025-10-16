@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useRef, KeyboardEvent } from 'react';
 import { TaskFormData } from '../types/task';
 import { ValidationError } from '../types/validation';
 
@@ -10,6 +10,7 @@ interface TaskInputProps {
 export function TaskInput({ onSubmit, error }: TaskInputProps) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const contentRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -22,8 +23,25 @@ export function TaskInput({ onSubmit, error }: TaskInputProps) {
     }
   };
 
-  // エラーが解消されたら入力値をクリアしない
-  // (ユーザーが修正できるように)
+  // タイトル欄でEnterキーを押したら内容欄にフォーカス移動
+  const handleTitleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      contentRef.current?.focus();
+    }
+  };
+
+  // 内容欄でCmd/Ctrl+Enterを押したらタスク作成
+  const handleContentKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault();
+      const success = onSubmit({ title, content });
+      if (success) {
+        setTitle('');
+        setContent('');
+      }
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="border-t bg-white p-4 shadow-lg">
@@ -45,6 +63,7 @@ export function TaskInput({ onSubmit, error }: TaskInputProps) {
             placeholder="タスクのタイトル"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            onKeyDown={handleTitleKeyDown}
             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-colors ${
               error?.field === 'title'
                 ? 'border-red-300 focus:ring-red-500'
@@ -63,9 +82,11 @@ export function TaskInput({ onSubmit, error }: TaskInputProps) {
 
         <div>
           <textarea
+            ref={contentRef}
             placeholder="内容（任意）"
             value={content}
             onChange={(e) => setContent(e.target.value)}
+            onKeyDown={handleContentKeyDown}
             rows={3}
             className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-colors resize-none ${
               error?.field === 'content'

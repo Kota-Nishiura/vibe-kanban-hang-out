@@ -22,15 +22,57 @@ describe('TaskInput', () => {
     });
   });
 
-  test('Enterキーで作成できる', async () => {
+  test('タイトル欄でEnterキーを押すと内容欄にフォーカス移動する', async () => {
     const onSubmit = vi.fn().mockReturnValue(true);
     render(<TaskInput onSubmit={onSubmit} />);
 
     const titleInput = screen.getByPlaceholderText('タスクのタイトル');
+    const contentInput = screen.getByPlaceholderText('内容（任意）');
 
     await userEvent.type(titleInput, 'テストタスク{Enter}');
 
-    expect(onSubmit).toHaveBeenCalled();
+    // タスクは作成されない
+    expect(onSubmit).not.toHaveBeenCalled();
+    // 内容欄にフォーカスが移動する
+    expect(contentInput).toHaveFocus();
+  });
+
+  test('内容欄でCmd+Enterでタスクを作成できる', async () => {
+    const onSubmit = vi.fn().mockReturnValue(true);
+    render(<TaskInput onSubmit={onSubmit} />);
+
+    const titleInput = screen.getByPlaceholderText('タスクのタイトル');
+    const contentInput = screen.getByPlaceholderText('内容（任意）');
+
+    await userEvent.type(titleInput, 'テストタスク');
+    await userEvent.type(contentInput, 'テスト内容');
+
+    // Cmd+Enter (macOS)
+    await userEvent.keyboard('{Meta>}{Enter}{/Meta}');
+
+    expect(onSubmit).toHaveBeenCalledWith({
+      title: 'テストタスク',
+      content: 'テスト内容',
+    });
+  });
+
+  test('内容欄でCtrl+Enterでタスクを作成できる', async () => {
+    const onSubmit = vi.fn().mockReturnValue(true);
+    render(<TaskInput onSubmit={onSubmit} />);
+
+    const titleInput = screen.getByPlaceholderText('タスクのタイトル');
+    const contentInput = screen.getByPlaceholderText('内容（任意）');
+
+    await userEvent.type(titleInput, 'テストタスク');
+    await userEvent.type(contentInput, 'テスト内容');
+
+    // Ctrl+Enter (Windows/Linux)
+    await userEvent.keyboard('{Control>}{Enter}{/Control}');
+
+    expect(onSubmit).toHaveBeenCalledWith({
+      title: 'テストタスク',
+      content: 'テスト内容',
+    });
   });
 
   test('エラーメッセージが表示される', () => {
