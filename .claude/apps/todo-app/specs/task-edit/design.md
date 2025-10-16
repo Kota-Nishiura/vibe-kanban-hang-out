@@ -79,192 +79,268 @@ type SelectedTask = Task | null;
 
 ## 3. UI/UX設計 / UI/UX Design
 
-### 3.1 画面レイアウト
+### 3.1 画面レイアウト（現在の実装）
 
-#### 3.1.1 タスク選択前（既存と同じ）
+現在のUIは、**左サイドバー + 右メインエリア** のレイアウトになっています。
+
+#### 3.1.1 基本レイアウト（タスク未選択時）
 ```
-┌─────────────────────────────────────┐
-│  TODO App                           │
-├─────────────────────────────────────┤
-│                                     │
-│  ┌─────────────────────────────┐   │
-│  │ タスク1                      │   │ ← クリック可能
-│  │ 説明...                      │   │
-│  │ 2025-10-14 12:00            │   │
-│  └─────────────────────────────┘   │
-│                                     │
-│  ┌─────────────────────────────┐   │
-│  │ タスク2                      │   │
-│  │ 説明...                      │   │
-│  │ 2025-10-14 13:00            │   │
-│  └─────────────────────────────┘   │
-│                                     │
-├─────────────────────────────────────┤
-│  ┌─────────────────────────────┐   │
-│  │ タイトル                     │   │
-│  └─────────────────────────────┘   │
-│  ┌─────────────────────────────┐   │
-│  │ 内容（任意）                 │   │
-│  └─────────────────────────────┘   │
-│  [作成]                             │
-└─────────────────────────────────────┘
+┌──────────────┬──────────────────────────────────────────┐
+│ TODO App     │                                          │
+│──────────────│     タスクを選択してください              │
+│              │     (空状態のメッセージ)                  │
+│ □ タスク1    │                                          │
+│   内容...    │                                          │
+│              │                                          │
+│ □ タスク2    │                                          │
+│   内容...    │                                          │
+│              │                                          │
+│ □ タスク3    │                                          │
+│   内容...    │                                          │
+│              │                                          │
+│──────────────│──────────────────────────────────────────│
+│ 3 タスク     │ [タイトル] [内容] [+作成]                │
+└──────────────┴──────────────────────────────────────────┘
+  ← 256px      ← flex-1 (残りの幅)
 ```
 
 #### 3.1.2 タスク選択後（詳細表示）
 ```
-┌─────────────────────────────────────┐
-│  TODO App                      [×]  │
-├─────────────────────────────────────┤
-│                                     │
-│  ┌─────────────────────────────┐   │
-│  │ タスク1                      │   │ ← 選択状態（ハイライト）
-│  │ 説明...                      │   │
-│  │ 2025-10-14 12:00            │   │
-│  └─────────────────────────────┘   │
-│                                     │
-│  ┌═════════════════════════════┐   │
-│  ║ タスク1                      ║   │ ← 詳細表示（中央）
-│  ║ 説明の全文がここに...        ║   │
-│  ║                             ║   │
-│  ║ 作成: 2025-10-14 12:00      ║   │
-│  ║ 更新: 2025-10-14 12:00      ║   │
-│  ║                             ║   │
-│  ║ [編集] [閉じる]             ║   │
-│  └═════════════════════════════┘   │
-│                                     │
-├─────────────────────────────────────┤
-│  (入力フォームは非表示)             │
-└─────────────────────────────────────┘
+┌──────────────┬──────────────────────────────────────────┐
+│ TODO App     │ タスク1 (大きく表示)                      │
+│──────────────│ 🕐 作成: 2025-10-14 12:00                │
+│              │──────────────────────────────────────────│
+│ ■ タスク1    │                                          │ ← 選択中（青ボーダー+背景）
+│   内容...    │ タスクの内容がここに全文表示される        │
+│              │                                          │
+│ □ タスク2    │                                          │
+│   内容...    │                                          │
+│              │                                          │
+│ □ タスク3    │ 【ここに編集ボタンを追加】                │ ← 新規追加
+│   内容...    │                                          │
+│              │                                          │
+│──────────────│──────────────────────────────────────────│
+│ 3 タスク     │ [タイトル] [内容] [+作成]                │
+└──────────────┴──────────────────────────────────────────┘
 ```
 
-#### 3.1.3 編集モード
+#### 3.1.3 編集モード（モーダル表示）
 ```
-┌─────────────────────────────────────┐
-│  TODO App                           │
-├─────────────────────────────────────┤
-│                                     │
-│  ┌═════════════════════════════┐   │
-│  ║ タスクの編集                 ║   │
-│  ║                             ║   │
-│  ║ [エラー表示エリア]           ║   │
-│  ║ ┌─────────────────────────┐ ║   │
-│  ║ │ タイトル                 │ ║   │
-│  ║ └─────────────────────────┘ ║   │
-│  ║ ┌─────────────────────────┐ ║   │
-│  ║ │ 内容（任意）             │ ║   │
-│  ║ │                         │ ║   │
-│  ║ └─────────────────────────┘ ║   │
-│  ║                             ║   │
-│  ║ [更新] [キャンセル]         ║   │
-│  └═════════════════════════════┘   │
-│                                     │
-├─────────────────────────────────────┤
-│  (作成フォームは非表示)             │
-└─────────────────────────────────────┘
+┌──────────────┬──────────────────────────────────────────┐
+│ TODO App     │  ┌────────────────────────────────────┐  │
+│──────────────│  │ タスクの編集              [×]     │  │
+│              │  ├────────────────────────────────────┤  │
+│ ■ タスク1    │  │ [エラー表示エリア]              │  │
+│   内容...    │  │ ┌──────────────────────────────┐│  │
+│              │  │ │ タイトル                     ││  │
+│ □ タスク2    │  │ └──────────────────────────────┘│  │
+│   内容...    │  │ ┌──────────────────────────────┐│  │
+│              │  │ │ 内容（任意）                 ││  │
+│ □ タスク3    │  │ │                              ││  │
+│   内容...    │  │ └──────────────────────────────┘│  │
+│              │  │                                  │  │
+│──────────────│  │ [更新] [キャンセル]              │  │
+│ 3 タスク     │  └────────────────────────────────────┘  │
+└──────────────┴──────────────────────────────────────────┘
+                背景全体が暗くなる（モーダルオーバーレイ）
 ```
 
-### 3.2 コンポーネント構成
+### 3.2 レイアウトの構成要素
+
+#### 左サイドバー（Sidebar.tsx）
+- **固定幅**: 256px (`w-64`)
+- **背景色**: ダークグレー (`bg-gray-900`)
+- **構成**:
+  - ヘッダー: 「TODO App」タイトル
+  - タスク一覧: クリック可能なボタン形式
+    - 選択中: 左青ボーダー + 背景色変更 (`border-blue-500`, `bg-gray-800`)
+    - ホバー: 背景色変更 (`hover:bg-gray-800`)
+    - 表示内容: タイトル + 内容プレビュー（truncate）
+  - フッター: タスク数カウント
+
+#### 右メインエリア（flex-1）
+**上部: タスク詳細表示エリア**（TaskDetail.tsx）
+- **スクロール可能**: `overflow-y-auto`
+- **未選択時**: 空状態メッセージ + アイコン
+- **選択時**:
+  - タスクタイトル（大きく表示）
+  - メタ情報（作成日時）
+  - タスク内容（全文、改行対応）
+  - **編集ボタン**（ここに新規追加予定）
+
+**下部: タスク作成フォーム**（TaskInput.tsx）
+- **固定位置**: `sticky bottom-0`
+- **レイアウト**: 横並び配置
+  - タイトル入力（flex-1）
+  - 内容入力（flex-1）
+  - 作成ボタン（固定幅、アイコン付き）
+
+### 3.3 コンポーネント構成（実装ベース）
 ```tsx
 <App>
-  <div className="container">
-    <header>
-      <h1>TODO App</h1>
-    </header>
+  <div className="flex h-screen bg-white">
+    {/* 左サイドバー */}
+    <Sidebar
+      tasks={tasks}
+      selectedTaskId={selectedTaskId}
+      onSelectTask={setSelectedTaskId}
+    />
 
-    <main className="task-list-area">
-      <TaskList
-        tasks={tasks}
-        selectedTaskId={selectedTaskId}
-        onSelectTask={handleSelectTask}
-      />
+    {/* 右メインエリア */}
+    <div className="flex-1 flex flex-col">
+      {/* タスク詳細表示エリア（上部） */}
+      <main className="flex-1 overflow-y-auto bg-gray-50">
+        <TaskDetail task={selectedTask} />
+        {/* ここに編集ボタンを追加予定 */}
+      </main>
 
-      {/* 選択されたタスクの詳細表示 */}
-      {selectedTask && !isEditing && (
-        <TaskDetail
-          task={selectedTask}
-          onEdit={handleStartEdit}
-          onClose={handleCloseDetail}
-        />
-      )}
-
-      {/* 編集モード */}
-      {selectedTask && isEditing && (
-        <TaskEditForm
-          task={selectedTask}
-          onSubmit={handleUpdateTask}
-          onCancel={handleCancelEdit}
-          error={error}
-        />
-      )}
-    </main>
-
-    {/* 作成フォーム（詳細表示時は非表示） */}
-    {!selectedTask && (
-      <footer className="input-area">
-        <TaskInput onSubmit={handleCreateTask} error={error} />
+      {/* タスク作成フォーム（下部、固定） */}
+      <footer className="sticky bottom-0">
+        <TaskInput onSubmit={handleAddTask} />
       </footer>
+    </div>
+
+    {/* 編集モーダル（条件付き表示） */}
+    {selectedTask && isEditing && (
+      <TaskEditForm
+        task={selectedTask}
+        onSubmit={handleUpdateTask}
+        onCancel={handleCancelEdit}
+        error={error}
+      />
     )}
   </div>
 </App>
 
-<TaskItem task={task} isSelected={isSelected} onClick={onSelect}>
-  <div className={`task-card ${isSelected ? 'selected' : ''}`}>
-    <h3>{task.title}</h3>
-    <p>{task.content}</p>
-    <time>{formatDate(task.createdAt)}</time>
-  </div>
-</TaskItem>
+<Sidebar>
+  <aside className="w-64 bg-gray-900 text-white flex flex-col h-screen">
+    {/* ヘッダー */}
+    <div className="p-4 border-b border-gray-700">
+      <h2>TODO App</h2>
+    </div>
+
+    {/* タスク一覧 */}
+    <div className="flex-1 overflow-y-auto">
+      {tasks.map((task) => (
+        <button
+          key={task.id}
+          onClick={() => onSelectTask(task.id)}
+          className={`w-full text-left px-4 py-3 hover:bg-gray-800
+            transition-colors border-l-4 ${
+            selectedTaskId === task.id
+              ? 'bg-gray-800 border-blue-500'
+              : 'border-transparent'
+          }`}
+        >
+          <div className="font-medium truncate">{task.title}</div>
+          <div className="text-xs text-gray-400 mt-1 truncate">
+            {task.content || '内容なし'}
+          </div>
+        </button>
+      ))}
+    </div>
+
+    {/* フッター */}
+    <div className="p-4 border-t border-gray-700 text-xs text-gray-400">
+      {tasks.length} タスク
+    </div>
+  </aside>
+</Sidebar>
 
 <TaskDetail task={task}>
-  <div className="task-detail-modal">
-    <button className="close-button" onClick={onClose}>×</button>
-    <h2>{task.title}</h2>
-    <p className="content">{task.content}</p>
-    <div className="metadata">
-      <p>作成: {formatDate(task.createdAt)}</p>
-      <p>更新: {formatDate(task.updatedAt)}</p>
+  {!task ? (
+    {/* 空状態 */}
+    <div className="flex items-center justify-center h-full text-gray-400">
+      <div className="text-center">
+        <svg>...</svg>
+        <p>タスクを選択してください</p>
+      </div>
     </div>
-    <div className="actions">
-      <button onClick={onEdit}>編集</button>
-      <button onClick={onClose}>閉じる</button>
+  ) : (
+    {/* タスク詳細 */}
+    <div className="h-full overflow-y-auto">
+      <div className="max-w-3xl mx-auto px-6 py-8">
+        <h1 className="text-3xl font-bold">{task.title}</h1>
+
+        <div className="flex items-center gap-4 text-sm text-gray-500 mb-6">
+          <span>作成: {formatDate(task.createdAt)}</span>
+        </div>
+
+        <div className="prose max-w-none">
+          {task.content || '内容が入力されていません'}
+        </div>
+
+        {/* 【ここに編集ボタンを追加予定】 */}
+      </div>
     </div>
-  </div>
+  )}
 </TaskDetail>
 
+<TaskInput>
+  <form onSubmit={handleSubmit} className="border-t border-gray-200 bg-white p-4">
+    <div className="max-w-3xl mx-auto">
+      <div className="flex items-end gap-3">
+        <div className="flex-1 space-y-2">
+          <input placeholder="タスクのタイトル" />
+          <textarea placeholder="内容（任意）" rows={1} />
+        </div>
+        <button type="submit">
+          <svg>+</svg>
+          作成
+        </button>
+      </div>
+    </div>
+  </form>
+</TaskInput>
+
 <TaskEditForm task={task}>
-  <div className="edit-form-modal">
-    <h2>タスクの編集</h2>
-    {error && (
-      <div className="error-message">{error.message}</div>
-    )}
-    <input
-      type="text"
-      placeholder="タスクのタイトル"
-      value={title}
-      onChange={handleTitleChange}
-    />
-    <textarea
-      placeholder="内容（任意）"
-      value={content}
-      onChange={handleContentChange}
-    />
-    <div className="actions">
-      <button type="submit">更新</button>
-      <button type="button" onClick={onCancel}>キャンセル</button>
+  {/* モーダルオーバーレイ */}
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full">
+      <form onSubmit={handleSubmit}>
+        {/* ヘッダー */}
+        <div className="bg-white border-b px-6 py-4">
+          <h2>タスクの編集</h2>
+          <button onClick={onCancel}>×</button>
+        </div>
+
+        {/* コンテンツ */}
+        <div className="px-6 py-4 space-y-4">
+          {error && <div className="text-red-600">{error.message}</div>}
+
+          <input
+            type="text"
+            value={title}
+            placeholder="タスクのタイトル"
+          />
+
+          <textarea
+            value={content}
+            placeholder="内容（任意）"
+            rows={5}
+          />
+        </div>
+
+        {/* フッター */}
+        <div className="bg-white border-t px-6 py-4 flex gap-3">
+          <button type="submit">更新</button>
+          <button type="button" onClick={onCancel}>キャンセル</button>
+        </div>
+      </form>
     </div>
   </div>
 </TaskEditForm>
 ```
 
-### 3.3 インタラクション
+### 3.4 インタラクション（現在の実装ベース）
 
 #### フロー1: タスク選択から編集まで
-1. ユーザーがタスクをクリック
-2. タスクが選択状態になる（ハイライト）
-3. 画面中央にタスク詳細が表示される（モーダルまたはオーバーレイ）
-4. 作成フォームが非表示になる
-5. ユーザーが「編集」ボタンをクリック
-6. 編集フォームが表示される
+1. ユーザーが**左サイドバーのタスク**をクリック
+2. サイドバーのタスクが選択状態になる（左青ボーダー + 背景色変更）
+3. **右メインエリア**にタスク詳細が表示される（インライン表示）
+4. 作成フォームは常に下部に表示されたまま
+5. ユーザーがタスク詳細内の「編集」ボタンをクリック
+6. **モーダル**で編集フォームが表示される（画面全体にオーバーレイ）
 7. 現在のタイトルと内容が入力フォームに表示される
 8. ユーザーがタイトルと内容を編集
 9. 「更新」ボタンをクリック
@@ -273,20 +349,21 @@ type SelectedTask = Task | null;
     - エラーがなければ、次へ
 11. タスクを更新（updatedAt更新）
 12. ローカルストレージに保存
-13. 一覧を更新
-14. 編集モードを終了
-15. 詳細表示も閉じる
+13. サイドバーと詳細表示のタスク情報を更新
+14. モーダルを閉じる
+15. 更新されたタスク詳細が表示される
 
 #### フロー2: 編集のキャンセル
 1. 編集中にユーザーが「キャンセル」ボタンをクリック
 2. 編集内容を破棄
-3. 詳細表示に戻る
+3. モーダルを閉じる
+4. 元のタスク詳細表示に戻る
 
-#### フロー3: 詳細表示を閉じる
-1. ユーザーが「閉じる」ボタンまたは「×」ボタンをクリック
-2. 詳細表示が閉じる
-3. 選択状態が解除される
-4. 作成フォームが再表示される
+#### フロー3: 別のタスクを選択
+1. タスク詳細表示中に、ユーザーがサイドバーの別のタスクをクリック
+2. 選択状態が新しいタスクに移動
+3. 右メインエリアに新しいタスクの詳細が表示される
+4. 編集中の場合はモーダルが自動的に閉じる
 
 ## 4. ビジネスロジック / Business Logic
 
