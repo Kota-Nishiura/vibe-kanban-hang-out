@@ -2,7 +2,8 @@ import { Task } from '../types/task';
 
 const STORAGE_KEY = 'todo-app:tasks';
 
-interface SerializedTask {
+// JSONからパースされたタスクの型（日付は文字列）
+interface StoredTask {
   id: string;
   title: string;
   content: string;
@@ -15,8 +16,8 @@ export function loadTasks(): Task[] {
     const data = localStorage.getItem(STORAGE_KEY);
     if (!data) return [];
 
-    const tasks: SerializedTask[] = JSON.parse(data);
-    return tasks.map((task: SerializedTask) => ({
+    const tasks: StoredTask[] = JSON.parse(data);
+    return tasks.map((task) => ({
       ...task,
       createdAt: new Date(task.createdAt),
       updatedAt: new Date(task.updatedAt),
@@ -31,10 +32,10 @@ export function saveTasks(tasks: Task[]): void {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
   } catch (error) {
-    console.error('Failed to save tasks:', error);
-    // QuotaExceededError の場合はユーザーに通知
     if (error instanceof DOMException && error.name === 'QuotaExceededError') {
-      alert('ストレージの容量が不足しています。');
+      alert('ストレージの容量が不足しています。不要なタスクを削除してください。');
+    } else {
+      console.error('Failed to save tasks:', error);
     }
   }
 }

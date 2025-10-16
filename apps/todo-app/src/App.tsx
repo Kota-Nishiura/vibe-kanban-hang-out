@@ -5,21 +5,24 @@ import { Sidebar } from './components/Sidebar';
 import { TaskDetail } from './components/TaskDetail';
 
 function App() {
-  const { tasks, addTask } = useTasks();
+  const { tasks, addTask, error } = useTasks();
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
 
   // 選択されているタスクを取得
   const selectedTask = tasks.find(task => task.id === selectedTaskId) || null;
 
   // 新しいタスクが作成されたら自動的に選択
-  const handleAddTask = (formData: { title: string; content: string }) => {
-    addTask(formData);
-    // 最新のタスクを選択（タスク追加後に先頭に来るため）
-    setTimeout(() => {
-      if (tasks.length > 0) {
-        setSelectedTaskId(tasks[0]?.id || null);
-      }
-    }, 0);
+  const handleAddTask = (formData: { title: string; content: string }): boolean => {
+    const success = addTask(formData);
+    if (success) {
+      // 最新のタスクを選択（タスク追加後に先頭に来るため）
+      setTimeout(() => {
+        if (tasks.length > 0) {
+          setSelectedTaskId(tasks[0]?.id || null);
+        }
+      }, 0);
+    }
+    return success;
   };
 
   return (
@@ -40,7 +43,7 @@ function App() {
 
         {/* 入力フォームエリア（固定） */}
         <footer className="sticky bottom-0">
-          <TaskInput onSubmit={handleAddTask} />
+          <TaskInput onSubmit={handleAddTask} error={error} />
         </footer>
       </div>
     </div>
