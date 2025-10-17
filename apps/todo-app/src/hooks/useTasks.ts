@@ -7,6 +7,7 @@ import { validateTaskInput } from '../lib/validation';
 
 export function useTasks() {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
   const [error, setError] = useState<ValidationError | null>(null);
 
   // 初回ロード
@@ -14,6 +15,11 @@ export function useTasks() {
     const loaded = loadTasks();
     setTasks(loaded);
   }, []);
+
+  // 選択されたタスクを取得
+  const selectedTask = selectedTaskId
+    ? tasks.find((t) => t.id === selectedTaskId) || null
+    : null;
 
   // タスク追加
   const addTask = (formData: TaskFormData): boolean => {
@@ -44,9 +50,24 @@ export function useTasks() {
     return true;
   };
 
+  // タスク選択
+  const selectTask = (taskId: string) => {
+    setSelectedTaskId(taskId);
+    setError(null);
+  };
+
+  // タスク選択解除
+  const clearSelection = () => {
+    setSelectedTaskId(null);
+    setError(null);
+  };
+
   return {
     tasks,
     addTask,
+    selectedTask,
+    selectTask,
+    clearSelection,
     error,
   };
 }
