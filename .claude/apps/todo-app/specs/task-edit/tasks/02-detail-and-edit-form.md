@@ -163,18 +163,38 @@ export function TaskEditForm({
 }: TaskEditFormProps) {
   const [title, setTitle] = useState(task.title);
   const [content, setContent] = useState(task.content);
+  const [hasChanges, setHasChanges] = useState(false);
 
-  // Escapeキーでキャンセル
+  // 変更検知
+  useEffect(() => {
+    const changed =
+      title.trim() !== task.title ||
+      content !== task.content;
+    setHasChanges(changed);
+  }, [title, content, task]);
+
+  // キャンセル処理（変更検知付き）
+  const handleCancel = () => {
+    if (hasChanges) {
+      const confirmed = window.confirm(
+        '編集を破棄してもよろしいですか？'
+      );
+      if (!confirmed) return;
+    }
+    onCancel();
+  };
+
+  // Escapeキーでキャンセル（変更検知付き）
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onCancel();
+        handleCancel();
       }
     };
 
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
-  }, [onCancel]);
+  }, [hasChanges]); // hasChangesに依存
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -184,7 +204,7 @@ export function TaskEditForm({
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-      onClick={onCancel}
+      onClick={handleCancel}
     >
       <div
         className="bg-white rounded-lg shadow-xl max-w-2xl w-full"

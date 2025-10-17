@@ -355,34 +355,102 @@ type SelectedTask = Task | null;
 
 #### フロー2: 編集のキャンセル
 1. 編集中にユーザーが「キャンセル」ボタンをクリック
-2. 編集内容を破棄
-3. モーダルを閉じる
-4. 元のタスク詳細表示に戻る
+2. **変更検知**:
+   - 変更がない場合: そのままモーダルを閉じる
+   - 変更がある場合: 確認ダイアログを表示
+3. 確認ダイアログで「破棄」を選択
+4. モーダルを閉じる
+5. 元のタスク詳細表示に戻る
 
-#### フロー3: 別のタスクを選択
+#### フロー3: 別のタスクを選択（編集中の場合）
 1. タスク詳細表示中に、ユーザーがサイドバーの別のタスクをクリック
-2. 選択状態が新しいタスクに移動
-3. 右メインエリアに新しいタスクの詳細が表示される
-4. 編集中の場合はモーダルが自動的に閉じる
+2. **変更検知**:
+   - 編集モードでない場合: そのまま新しいタスクを選択
+   - 編集モードで変更がない場合: モーダルを閉じて新しいタスクを選択
+   - 編集モードで変更がある場合: 確認ダイアログを表示
+3. 確認ダイアログで「破棄」を選択
+4. モーダルを閉じる
+5. 選択状態が新しいタスクに移動
+6. 右メインエリアに新しいタスクの詳細が表示される
+
+#### フロー4: Escapeキーでモーダルを閉じる
+1. 編集モーダル表示中にEscapeキーを押す
+2. **変更検知**（フロー2と同じ）:
+   - 変更がない場合: そのままモーダルを閉じる
+   - 変更がある場合: 確認ダイアログを表示
+3. 確認ダイアログで「破棄」を選択
+4. モーダルを閉じる
+
+#### フロー5: モーダル背景クリックで閉じる
+1. 編集モーダルの背景（オーバーレイ）をクリック
+2. **変更検知**（フロー2と同じ）:
+   - 変更がない場合: そのままモーダルを閉じる
+   - 変更がある場合: 確認ダイアログを表示
+3. 確認ダイアログで「破棄」を選択
+4. モーダルを閉じる
 
 ## 4. ビジネスロジック / Business Logic
 
 ### 4.1 主要な処理フロー
 
-#### フロー1: タスクの選択
+#### フロー1: タスクの選択（変更検知付き）
 ```typescript
 function selectTask(taskId: string): void {
+  // 編集中で変更がある場合は確認
+  if (isEditing && hasChanges) {
+    const confirmed = window.confirm(
+      '編集中の内容が保存されていません。破棄してもよろしいですか？'
+    );
+    if (!confirmed) return;
+  }
+
   setSelectedTaskId(taskId);
   setIsEditing(false);
 }
 
 function closeDetail(): void {
+  // 編集中で変更がある場合は確認
+  if (isEditing && hasChanges) {
+    const confirmed = window.confirm(
+      '編集中の内容が保存されていません。破棄してもよろしいですか？'
+    );
+    if (!confirmed) return;
+  }
+
   setSelectedTaskId(null);
   setIsEditing(false);
 }
 ```
 
-#### フロー2: タスクの編集
+#### フロー2: 変更検知
+```typescript
+// TaskEditForm内で変更を検知
+const [hasChanges, setHasChanges] = useState(false);
+
+useEffect(() => {
+  const changed =
+    title.trim() !== task.title ||
+    content !== task.content;
+  setHasChanges(changed);
+}, [title, content, task]);
+```
+
+#### フロー3: キャンセル処理（変更検知付き）
+```typescript
+function handleCancel(): void {
+  // 変更がある場合のみ確認
+  if (hasChanges) {
+    const confirmed = window.confirm(
+      '編集を破棄してもよろしいですか？'
+    );
+    if (!confirmed) return;
+  }
+
+  onCancel();
+}
+```
+
+#### フロー4: タスクの編集
 ```typescript
 function updateTask(
   taskId: string,
