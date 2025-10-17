@@ -7,7 +7,7 @@ describe('App', () => {
     localStorage.clear();
   });
 
-  test('サイドバーが表示される', () => {
+  test('ヘッダーが表示される', () => {
     render(<App />);
     expect(screen.getByText('TODO App')).toBeInTheDocument();
   });
@@ -15,11 +15,7 @@ describe('App', () => {
   test('空のタスク一覧メッセージが表示される', () => {
     render(<App />);
     expect(screen.getByText('タスクがありません')).toBeInTheDocument();
-  });
-
-  test('タスク選択前のメッセージが表示される', () => {
-    render(<App />);
-    expect(screen.getByText('タスクを選択してください')).toBeInTheDocument();
+    expect(screen.getByText('下のフォームから作成してください')).toBeInTheDocument();
   });
 
   test('入力フォームが表示される', () => {
