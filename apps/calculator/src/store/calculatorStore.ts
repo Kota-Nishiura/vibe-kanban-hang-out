@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
+import Decimal from 'decimal.js';
 import type { CalculatorState, Operator, CalculatorMode, HistoryEntry } from '../types';
 import { initialCalculatorState } from '../types';
 
@@ -122,35 +123,35 @@ export const useCalculatorStore = create<CalculatorStore>()(
 
             // 演算子が既に選択されている場合は計算を実行
             if (state.previousValue !== null && state.operator !== null && !state.shouldResetOnNextInput) {
-              const prev = parseFloat(state.previousValue);
-              const curr = parseFloat(state.currentValue);
-              let result = 0;
+              const prev = new Decimal(state.previousValue);
+              const curr = new Decimal(state.currentValue);
+              let result: Decimal;
 
               switch (state.operator) {
                 case '+':
-                  result = prev + curr;
+                  result = prev.plus(curr);
                   break;
                 case '−':
-                  result = prev - curr;
+                  result = prev.minus(curr);
                   break;
                 case '×':
-                  result = prev * curr;
+                  result = prev.times(curr);
                   break;
                 case '÷':
-                  if (curr === 0) {
+                  if (curr.isZero()) {
                     state.hasError = true;
                     state.errorMessage = '0で割ることはできません';
                     state.currentValue = 'Error';
                     return;
                   }
-                  result = prev / curr;
+                  result = prev.dividedBy(curr);
                   break;
                 case '%':
-                  result = prev % curr;
+                  result = prev.modulo(curr);
                   break;
               }
 
-              state.currentValue = formatNumber(result);
+              state.currentValue = formatNumber(result.toNumber());
             }
 
             state.previousValue = state.currentValue;
@@ -208,36 +209,36 @@ export const useCalculatorStore = create<CalculatorStore>()(
           set((state) => {
             if (state.hasError || state.previousValue === null || state.operator === null) return;
 
-            const prev = parseFloat(state.previousValue);
-            const curr = parseFloat(state.currentValue);
-            let result = 0;
+            const prev = new Decimal(state.previousValue);
+            const curr = new Decimal(state.currentValue);
+            let result: Decimal;
 
             switch (state.operator) {
               case '+':
-                result = prev + curr;
+                result = prev.plus(curr);
                 break;
               case '−':
-                result = prev - curr;
+                result = prev.minus(curr);
                 break;
               case '×':
-                result = prev * curr;
+                result = prev.times(curr);
                 break;
               case '÷':
-                if (curr === 0) {
+                if (curr.isZero()) {
                   state.hasError = true;
                   state.errorMessage = '0で割ることはできません';
                   state.currentValue = 'Error';
                   return;
                 }
-                result = prev / curr;
+                result = prev.dividedBy(curr);
                 break;
               case '%':
-                result = prev % curr;
+                result = prev.modulo(curr);
                 break;
             }
 
             const expression = `${state.previousValue} ${state.operator} ${state.currentValue}`;
-            const resultStr = formatNumber(result);
+            const resultStr = formatNumber(result.toNumber());
 
             // 履歴に追加
             state.history.unshift({

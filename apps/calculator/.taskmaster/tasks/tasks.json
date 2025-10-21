@@ -283,7 +283,7 @@
           "2",
           "3"
         ],
-        "status": "pending",
+        "status": "in-progress",
         "subtasks": [
           {
             "id": 1,
@@ -385,7 +385,8 @@
         ],
         "complexity": 8,
         "recommendedSubtasks": 8,
-        "expansionPrompt": "電卓の核となる計算機能を段階的に実装するため、decimal.js導入、CalculatorButtonコンポーネント作成、基本計算ロジック実装、state machine実装、連続計算制御、エラーハンドリング基本、入力検証、表示制御の各サブタスクに分割してください。"
+        "expansionPrompt": "電卓の核となる計算機能を段階的に実装するため、decimal.js導入、CalculatorButtonコンポーネント作成、基本計算ロジック実装、state machine実装、連続計算制御、エラーハンドリング基本、入力検証、表示制御の各サブタスクに分割してください。",
+        "updatedAt": "2025-10-21T11:58:08.564Z"
       },
       {
         "id": "5",
@@ -933,7 +934,7 @@
     ],
     "metadata": {
       "version": "1.0.0",
-      "lastModified": "2025-10-21T10:03:41.785Z",
+      "lastModified": "2025-10-21T11:58:08.565Z",
       "taskCount": 10,
       "completedCount": 3,
       "tags": [
