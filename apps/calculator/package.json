@@ -17,8 +17,10 @@
   },
   "dependencies": {
     "clsx": "^2.1.1",
+    "immer": "^10.1.1",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
