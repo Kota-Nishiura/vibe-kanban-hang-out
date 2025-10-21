@@ -1,0 +1,93 @@
+{
+	"meta": {
+		"generatedAt": "2025-10-21T05:20:02.165Z",
+		"tasksAnalyzed": 10,
+		"totalTasks": 10,
+		"analysisCount": 10,
+		"thresholdScore": 5,
+		"projectName": "Taskmaster",
+		"usedResearch": true
+	},
+	"complexityAnalysis": [
+		{
+			"taskId": 1,
+			"taskTitle": "プロジェクトセットアップとReact+TypeScript環境構築",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "プロジェクト初期化を段階的に実装するため、Vite環境設定、TypeScript設定、ESLint/Prettier設定、ディレクトリ構造作成、初期テスト確認の各サブタスクに分割してください。",
+			"reasoning": "プロジェクトがまだ初期化されていない状態のため、開発環境の完全なセットアップが必要。複数の設定ファイルとディレクトリ構造の作成、各種ツールの統合が含まれる。"
+		},
+		{
+			"taskId": 2,
+			"taskTitle": "電卓アプリの基本UI構造とレスポンシブレイアウト実装",
+			"complexityScore": 7,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "UI実装を段階的に進めるため、Tailwind CSS導入、基本レイアウト作成、ボタングリッド実装、レスポンシブ対応、CSS変数によるテーマ基盤作成、アクセシビリティ基本対応の各サブタスクに分割してください。",
+			"reasoning": "現状プロジェクトファイルが存在しないため、UIフレームワークの導入から基本レイアウトまで全て新規実装が必要。レスポンシブ対応とテーマシステムの基盤も含む。"
+		},
+		{
+			"taskId": 3,
+			"taskTitle": "TypeScript型定義と状態管理システムの実装",
+			"complexityScore": 8,
+			"recommendedSubtasks": 7,
+			"expansionPrompt": "状態管理システムを体系的に構築するため、Zustand導入、基本型定義、状態ストア実装、アクション定義、persist middleware設定、immer統合、DevTools連携の各サブタスクに分割してください。",
+			"reasoning": "プロジェクトが空の状態からZustandベースの完全な状態管理システムを構築する必要がある。型安全性、永続化、開発ツール連携等の複数の要素を統合する必要がある。"
+		},
+		{
+			"taskId": 4,
+			"taskTitle": "基本的な四則演算ロジックとボタンコンポーネント実装",
+			"complexityScore": 8,
+			"recommendedSubtasks": 8,
+			"expansionPrompt": "電卓の核となる計算機能を段階的に実装するため、decimal.js導入、CalculatorButtonコンポーネント作成、基本計算ロジック実装、state machine実装、連続計算制御、エラーハンドリング基本、入力検証、表示制御の各サブタスクに分割してください。",
+			"reasoning": "電卓の中核機能で、高精度計算ライブラリ、再利用可能コンポーネント、複雑な状態遷移ロジックを含む。浮動小数点問題の解決と状態管理が重要。"
+		},
+		{
+			"taskId": 5,
+			"taskTitle": "キーボード入力対応とアクセシビリティ機能実装",
+			"complexityScore": 7,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "アクセシビリティ機能を包括的に実装するため、キーボードイベント処理、キーマッピング実装、フォーカス管理、ARIA属性設定、カラーコントラスト対応、スクリーンリーダー対応の各サブタスクに分割してください。",
+			"reasoning": "WCAG 2.1 AA準拠を目指すため、キーボード操作、フォーカス管理、スクリーンリーダー対応等の包括的なアクセシビリティ機能が必要。"
+		},
+		{
+			"taskId": 6,
+			"taskTitle": "エラーハンドリングシステムと例外処理実装",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "堅牢なエラーハンドリングシステムを構築するため、カスタムエラークラス定義、Error Boundary実装、エラー状態管理、エラーメッセージ表示、エラー回復ロジックの各サブタスクに分割してください。",
+			"reasoning": "複数のエラータイプの定義とハンドリング、Error Boundaryの実装、エラー状態からの回復ロジックが必要。比較的標準的なパターンで実装可能。"
+		},
+		{
+			"taskId": 7,
+			"taskTitle": "計算履歴機能とローカルストレージ連携実装",
+			"complexityScore": 7,
+			"recommendedSubtasks": 6,
+			"expansionPrompt": "履歴機能を段階的に実装するため、履歴データ型定義、履歴ストア実装、履歴表示UI、ローカルストレージ連携、エクスポート機能、検索・フィルタリング機能の各サブタスクに分割してください。",
+			"reasoning": "履歴管理、永続化、UI表示、エクスポート機能等の複数機能を統合する必要がある。LRUキャッシュやファイル操作等の実装も含む。"
+		},
+		{
+			"taskId": 8,
+			"taskTitle": "科学計算機能と拡張モード実装",
+			"complexityScore": 8,
+			"recommendedSubtasks": 7,
+			"expansionPrompt": "科学計算機能を体系的に実装するため、mathjs導入、三角関数実装、対数・指数関数実装、括弧演算パーサー、モード切り替え機能、科学モードUI、角度単位切り替えの各サブタスクに分割してください。",
+			"reasoning": "数学ライブラリの統合、複雑な数式パーサー、UI拡張、モード管理等の高度な機能が必要。三角関数や対数関数の正確な実装が求められる。"
+		},
+		{
+			"taskId": 9,
+			"taskTitle": "テーマシステムとダークモード実装",
+			"complexityScore": 6,
+			"recommendedSubtasks": 5,
+			"expansionPrompt": "テーマシステムを段階的に構築するため、CSS変数システム設計、テーマ状態管理、システム設定検出、テーマ切り替えUI、アニメーション実装の各サブタスクに分割してください。",
+			"reasoning": "CSS変数システム、状態管理、システム設定検出、アニメーション等の統合が必要。比較的標準的なパターンで実装可能だが、全体的な統合が重要。"
+		},
+		{
+			"taskId": 10,
+			"taskTitle": "テスト実装とパフォーマンス最適化",
+			"complexityScore": 9,
+			"recommendedSubtasks": 8,
+			"expansionPrompt": "包括的なテストとパフォーマンス最適化を実現するため、テスト環境構築、ユニットテスト実装、統合テスト実装、コンポーネント最適化、バンドル最適化、パフォーマンス計測、CI/CD設定、カバレッジ確保の各サブタスクに分割してください。",
+			"reasoning": "全機能の包括的なテスト、パフォーマンス最適化、バンドル分析、Lighthouse最適化等の複雑な要素を含む。他の全てのタスクに依存する最も複雑なタスク。"
+		}
+	]
+}

@@ -1,0 +1,939 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "プロジェクトセットアップとReact+TypeScript環境構築",
+        "description": "Vite、React 18、TypeScript、ESLint、Prettierを含む最新の開発環境をセットアップし、基本的なプロジェクト構造を作成する",
+        "details": "最新のVite 5.x を使用してReact + TypeScriptプロジェクトを初期化。package.jsonに react@18.3.1, typescript@5.6.2, vite@5.4.8, @vitejs/plugin-react@4.3.2, eslint@9.12.0, prettier@3.3.3, vitest@2.1.1 を設定。ESLint設定では@typescript-eslint/eslint-plugin、@typescript-eslint/parser、eslint-plugin-react-hooks を使用。src/ ディレクトリ構造を components/, hooks/, types/, utils/, styles/ に分けて構築。tsconfig.json では strict mode と最新のモジュール解決を設定。",
+        "testStrategy": "プロジェクトのビルドとlint実行が正常に動作することを確認。TypeScriptの型チェックが適切に動作することをテスト。基本的なReactコンポーネントが正常にレンダリングされることを確認。",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Vite + React + TypeScriptプロジェクトの初期化",
+            "description": "最新のVite 5.xを使用してReact 18とTypeScriptプロジェクトを作成し、基本的な依存関係を設定する",
+            "dependencies": [],
+            "details": "npm create vite@latest . -- --template react-ts でプロジェクト初期化。package.jsonにreact@18.3.1, typescript@5.6.2, vite@5.4.8, @vitejs/plugin-react@4.3.2を設定。vite.config.tsでReactプラグインとTypeScript設定を構成。初期のApp.tsxとmain.tsxファイルを確認し、開発サーバーが正常に起動することを確認。",
+            "status": "done",
+            "testStrategy": "npm run dev でプロジェクトが正常に起動し、ブラウザでReactアプリが表示されることを確認",
+            "updatedAt": "2025-10-21T05:32:47.497Z",
+            "parentId": "undefined"
+          },
+          {
+            "id": 2,
+            "title": "TypeScript設定とtsconfig.jsonの最適化",
+            "description": "strict modeと最新のモジュール解決を含むTypeScript設定を構成し、型安全性を確保する",
+            "dependencies": [
+              1
+            ],
+            "details": "tsconfig.jsonでstrict: true、noImplicitAny: true、strictNullChecks: trueを設定。moduleResolution: \"bundler\"、target: \"ES2022\"、lib: [\"ES2022\", \"DOM\", \"DOM.Iterable\"]を指定。baseUrlとpathsでエイリアス設定（@/srcなど）を構成。include/excludeパターンを適切に設定し、型チェックの範囲を明確化。",
+            "status": "done",
+            "testStrategy": "npm run tsc --noEmit で型エラーが発生しないことを確認。インポートパスが正しく解決されることをテスト",
+            "parentId": "undefined"
+          },
+          {
+            "id": 3,
+            "title": "ESLintとPrettierの設定と統合",
+            "description": "ESLint、Prettier、TypeScript用プラグインを設定し、コード品質とフォーマット規則を確立する",
+            "dependencies": [
+              2
+            ],
+            "details": "eslint@9.12.0、prettier@3.3.3、@typescript-eslint/eslint-plugin、@typescript-eslint/parser、eslint-plugin-react-hooksをインストール。eslint.config.jsでTypeScriptとReact Hooksルールを設定。.prettierrcでコードフォーマットルール（semi: true、singleQuote: true、tabWidth: 2）を定義。package.jsonにlint、lint:fix、format スクリプトを追加。",
+            "status": "done",
+            "testStrategy": "npm run lint でエラーが発生しないことを確認。npm run format でコードが適切にフォーマットされることをテスト",
+            "parentId": "undefined"
+          },
+          {
+            "id": 4,
+            "title": "プロジェクトディレクトリ構造の構築",
+            "description": "src/配下にcomponents、hooks、types、utils、stylesディレクトリを作成し、モジュラーな構造を確立する",
+            "dependencies": [
+              3
+            ],
+            "details": "src/components/（UI コンポーネント）、src/hooks/（カスタムフック）、src/types/（TypeScript型定義）、src/utils/（ユーティリティ関数）、src/styles/（CSSファイル）ディレクトリを作成。各ディレクトリにindex.tsファイルでエクスポートを整理。src/components/common/とsrc/components/calculator/でコンポーネントを分類。絶対インポートのパス設定を確認。",
+            "status": "done",
+            "testStrategy": "各ディレクトリが作成され、インポートパスが正しく解決されることを確認。サンプルファイルでディレクトリ構造が機能することをテスト",
+            "parentId": "undefined"
+          },
+          {
+            "id": 5,
+            "title": "Vitestテスト環境の設定と初期テスト実行",
+            "description": "Vitest 2.1.1とテスト関連ライブラリを設定し、プロジェクトのビルドとテストが正常に動作することを確認する",
+            "dependencies": [
+              4
+            ],
+            "details": "vitest@2.1.1、@testing-library/react、@testing-library/jest-dom、@testing-library/user-eventをインストール。vitest.config.tsでテスト環境設定（jsdom、setupFiles）を構成。src/setupTests.tsでjest-domをセットアップ。package.jsonにtest、test:ui、build スクリプトを追加。サンプルテストファイルを作成してテスト環境が正常に動作することを確認。",
+            "status": "done",
+            "testStrategy": "npm run test でテストが実行されることを確認。npm run build でプロジェクトが正常にビルドされることをテスト。型チェック、lint、テストがすべて通ることを確認",
+            "parentId": "undefined"
+          }
+        ],
+        "complexity": 6,
+        "recommendedSubtasks": 5,
+        "expansionPrompt": "プロジェクト初期化を段階的に実装するため、Vite環境設定、TypeScript設定、ESLint/Prettier設定、ディレクトリ構造作成、初期テスト確認の各サブタスクに分割してください。",
+        "updatedAt": "2025-10-21T05:32:47.497Z"
+      },
+      {
+        "id": 2,
+        "title": "電卓アプリの基本UI構造とレスポンシブレイアウト実装",
+        "description": "ヘッダー、ディスプレイエリア、ボタングリッドから成る電卓UIをCSS ModulesまたはTailwind CSSで実装し、デスクトップ・モバイル対応のレスポンシブデザインを作成する",
+        "details": "Tailwind CSS v3.4.12 を使用してレスポンシブレイアウトを実装。デスクトップでは幅400-600px、モバイルでは画面幅に応じて最適化。CSS Grid を使用して基本モード4列×5行、科学モード5列×7行のボタンレイアウトを実装。clsx@2.1.1 を使用してクラス名管理を効率化。カスタムCSS変数でカラーテーマを管理し、light/darkモード対応の基盤を作成。",
+        "testStrategy": "異なる画面サイズでのレスポンシブ動作をテスト。デスクトップ、タブレット、モバイルでのレイアウト確認。CSS変数とクラス名の適用が正しく動作することを確認。",
+        "priority": "high",
+        "dependencies": [
+          "1"
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Tailwind CSS導入とプロジェクト設定",
+            "description": "Tailwind CSS v3.4.12とclsx@2.1.1をプロジェクトに導入し、基本的な設定とカスタムCSS変数の準備を行う",
+            "dependencies": [],
+            "details": "npm install tailwindcss@3.4.12 clsx@2.1.1を実行。tailwind.config.jsでカスタムカラー、ブレークポイント、CSS変数の設定を追加。src/index.cssにTailwindディレクティブとカスタムCSS変数を定義。light/darkモード対応の基盤となるCSS変数を準備。",
+            "status": "pending",
+            "testStrategy": "Tailwind CSSのクラスが正しく適用されることを確認。カスタムCSS変数が読み込まれることをテスト。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 2,
+            "title": "メインレイアウトコンポーネント作成",
+            "description": "電卓アプリの基本的なレイアウト構造（ヘッダー、ディスプレイエリア、ボタンエリア）を持つメインコンポーネントを実装する",
+            "dependencies": [
+              1
+            ],
+            "details": "Calculator.tsxメインコンポーネントを作成。ヘッダー部分にアプリタイトルとモード切り替えボタン用のスペースを配置。ディスプレイエリアは数式と結果表示用の2行構造。ボタンエリアはCSS Gridレイアウトの準備。max-width: 600px, min-width: 320pxでレスポンシブ対応。",
+            "status": "pending",
+            "testStrategy": "レイアウトが正しく表示されることを確認。各エリアが適切に配置されることをテスト。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 3,
+            "title": "ディスプレイエリアコンポーネント実装",
+            "description": "数式表示と結果表示を行うディスプレイエリアコンポーネントを実装し、テキストオーバーフローとスクロール機能を追加する",
+            "dependencies": [
+              2
+            ],
+            "details": "Display.tsxコンポーネントを作成。上部に入力数式、下部に計算結果を表示する2行構造。フォントはmonospace系を使用。テキストが長い場合の横スクロール対応。数値は右寄せ表示。エラー時の表示スタイルも定義。背景色はカスタムCSS変数を使用。",
+            "status": "pending",
+            "testStrategy": "長い数式や結果の表示が正しく処理されることを確認。スクロール機能の動作テスト。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 4,
+            "title": "ボタングリッドシステム実装",
+            "description": "基本モード4列×5行と科学モード5列×7行に対応可能なボタングリッドシステムを実装する",
+            "dependencies": [
+              2
+            ],
+            "details": "ButtonGrid.tsxコンポーネントを作成。CSS Gridを使用してレスポンシブなボタンレイアウトを実装。基本モード（4×5）と科学モード（5×7）の切り替え対応。ボタンサイズはaspect-ratio: 1を基本とし、一部ボタンは2倍幅に対応。ボタンのhover、active状態のスタイル定義。",
+            "status": "pending",
+            "testStrategy": "グリッドレイアウトが正しく機能することを確認。モード切り替え時のレイアウト変更をテスト。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 5,
+            "title": "レスポンシブデザイン最適化",
+            "description": "デスクトップ（400-600px）とモバイル（320px以上）での最適なレスポンシブ表示を実装する",
+            "dependencies": [
+              3,
+              4
+            ],
+            "details": "Tailwindのブレークポイント（sm: 640px, md: 768px, lg: 1024px）を活用。モバイルでは画面幅の90%、デスクトップでは固定幅を使用。ボタンのタッチターゲットサイズを44px以上に設定。フォントサイズをvwとremで調整。縦横比を考慮した最適なレイアウト調整。",
+            "status": "pending",
+            "testStrategy": "異なる画面サイズでのレイアウト確認。モバイルデバイスでのタッチ操作テスト。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 6,
+            "title": "アクセシビリティ基本対応とWAI-ARIA実装",
+            "description": "キーボードナビゲーション、スクリーンリーダー対応、WAI-ARIAラベルを実装してアクセシビリティ基準を満たす",
+            "dependencies": [
+              4,
+              5
+            ],
+            "details": "ボタンにaria-labelとrole属性を追加。ディスプレイエリアにaria-live='polite'を設定。キーボードでの操作対応（0-9, +, -, *, /, Enter, Escape）。focus-visible疑似クラスでキーボードフォーカス表示。カラーコントラスト比4.5:1以上を確保。tabindexの適切な設定。",
+            "status": "pending",
+            "testStrategy": "スクリーンリーダーでの読み上げテスト。キーボード操作の動作確認。カラーコントラスト測定。",
+            "parentId": "undefined"
+          }
+        ],
+        "complexity": 7,
+        "recommendedSubtasks": 6,
+        "expansionPrompt": "UI実装を段階的に進めるため、Tailwind CSS導入、基本レイアウト作成、ボタングリッド実装、レスポンシブ対応、CSS変数によるテーマ基盤作成、アクセシビリティ基本対応の各サブタスクに分割してください。"
+      },
+      {
+        "id": 3,
+        "title": "TypeScript型定義と状態管理システムの実装",
+        "description": "電卓の状態管理にZustandを使用し、TypeScriptの型安全性を確保した状態管理システムを構築する",
+        "details": "zustand@4.5.5 を使用して状態管理ストアを実装。CalculatorState、CalculationHistory、Operator 等の型を厳密に定義。immer@10.1.1 を使用してimmutableな状態更新を実現。persist middleware を使用してローカルストレージとの連携を実装。状態の更新ロジックをactionとして分離し、テストしやすい構造を作成。React DevTools との連携も設定。",
+        "testStrategy": "状態管理ロジックのユニットテスト実装。状態の更新が正しく動作することを確認。ローカルストレージへの保存・読み込み機能をテスト。型安全性の確認。",
+        "priority": "high",
+        "dependencies": [
+          "1"
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Zustandの依存関係導入とプロジェクト設定",
+            "description": "状態管理に必要なZustand、immer、関連ライブラリを導入し、TypeScriptプロジェクトでの基本設定を行う",
+            "dependencies": [],
+            "details": "zustand@4.5.5、immer@10.1.1をインストール。tsconfig.jsonの設定を確認し、状態管理ライブラリが適切に動作する環境を構築。package.jsonのscriptsにtypecheck用コマンドを追加。",
+            "status": "pending",
+            "testStrategy": "依存関係のインストール確認とTypeScriptビルドエラーがないことを確認",
+            "parentId": "undefined"
+          },
+          {
+            "id": 2,
+            "title": "基本的なTypeScript型定義の作成",
+            "description": "電卓アプリに必要なCalculatorState、Operator、CalculationHistory等の型定義を厳密に作成する",
+            "dependencies": [
+              1
+            ],
+            "details": "types/calculator.tsファイルを作成し、CalculatorState（display, previousOperand, operator, waitingForOperand等）、Operator（加減乗除）、CalculationHistory（timestamp, expression, result）、ErrorStateの型を定義。Union typesとliteral typesを適切に使用。",
+            "status": "pending",
+            "testStrategy": "型定義のコンパイルエラーがないことを確認し、基本的な型チェックをテスト",
+            "parentId": "undefined"
+          },
+          {
+            "id": 3,
+            "title": "Zustand状態ストアの基本実装",
+            "description": "Zustandを使用してCalculatorStateを管理する基本的なストアを実装する",
+            "dependencies": [
+              2
+            ],
+            "details": "stores/calculatorStore.tsを作成し、useCalculatorStoreフックを実装。初期状態の定義、基本的なstate構造を構築。subscribeWithSelectorミドルウェアの設定を含む。型安全性を確保したストア作成。",
+            "status": "pending",
+            "testStrategy": "ストアの初期化と基本的な状態読み取りが正常に動作することを確認",
+            "parentId": "undefined"
+          },
+          {
+            "id": 4,
+            "title": "状態更新アクションの定義と実装",
+            "description": "電卓の各操作に対応する状態更新アクション（数値入力、演算子、計算実行等）を実装する",
+            "dependencies": [
+              3
+            ],
+            "details": "inputNumber、inputOperator、calculate、clear、backspace等のアクションメソッドを実装。各アクションでの状態遷移ロジックを定義。エラーハンドリングと不正な状態遷移の防止を含む。immerを使用したimmutableな更新パターンを適用。",
+            "status": "pending",
+            "testStrategy": "各アクションの状態更新が正しく動作し、期待される計算結果が得られることをテスト",
+            "parentId": "undefined"
+          },
+          {
+            "id": 5,
+            "title": "persistミドルウェアによるローカルストレージ連携",
+            "description": "Zustandのpersistミドルウェアを使用して、電卓の状態をローカルストレージに自動保存・復元する機能を実装する",
+            "dependencies": [
+              4
+            ],
+            "details": "persistミドルウェアの設定を追加し、計算履歴と設定をlocalStorageに保存。partialize機能で保存対象を選択的に設定。ブラウザリロード時の状態復元機能を実装。ストレージエラーのハンドリングを含む。",
+            "status": "pending",
+            "testStrategy": "状態の保存・復元が正常に動作し、ブラウザリロード後も状態が維持されることを確認",
+            "parentId": "undefined"
+          },
+          {
+            "id": 6,
+            "title": "immerミドルウェアの統合とimmutable更新",
+            "description": "immerミドルウェアをZustandストアに統合し、ネストしたオブジェクトの更新を安全に行えるようにする",
+            "dependencies": [
+              5
+            ],
+            "details": "immerミドルウェアをストアに統合し、複雑な状態更新をmutableな記法で記述できるように設定。特に計算履歴の配列操作と設定オブジェクトの更新で活用。draftStateを使用した安全な状態更新パターンを実装。",
+            "status": "pending",
+            "testStrategy": "immerを使用した状態更新が正しく動作し、元の状態が変更されていないことを確認",
+            "parentId": "undefined"
+          },
+          {
+            "id": 7,
+            "title": "React DevToolsとの連携とデバッグ環境構築",
+            "description": "開発効率向上のためReact DevToolsとZustandの連携を設定し、状態変更をデバッグできる環境を構築する",
+            "dependencies": [
+              6
+            ],
+            "details": "subscribeWithSelectorミドルウェアとdevtoolsミドルウェアを設定。ストアの状態変更をReact DevToolsで追跡可能にする。development環境でのロギング機能を追加。production buildでは自動的に無効化される設定を実装。",
+            "status": "pending",
+            "testStrategy": "DevToolsで状態変更が正しく表示され、開発環境でのデバッグが効率的に行えることを確認",
+            "parentId": "undefined"
+          }
+        ],
+        "complexity": 8,
+        "recommendedSubtasks": 7,
+        "expansionPrompt": "状態管理システムを体系的に構築するため、Zustand導入、基本型定義、状態ストア実装、アクション定義、persist middleware設定、immer統合、DevTools連携の各サブタスクに分割してください。"
+      },
+      {
+        "id": 4,
+        "title": "基本的な四則演算ロジックとボタンコンポーネント実装",
+        "description": "四則演算、クリア、バックスペース等の基本的な電卓機能を実装し、再利用可能なボタンコンポーネントを作成する",
+        "details": "decimal.js@10.4.3 を使用して高精度計算を実現し、浮動小数点演算の精度問題を解決。CalculatorButton コンポーネントでは variant props (number, operator, equals, clear) を定義し、適切なスタイリングとアクセシビリティ属性 (aria-label, role) を実装。基本演算ロジックはstate machine パターンで実装し、shouldResetDisplay フラグで連続計算を制御。",
+        "testStrategy": "各種計算パターンのユニットテスト実装。連続計算、小数点計算、エラーケースをテスト。ボタンコンポーネントのレンダリングとクリックイベント処理をテスト。decimal.js の計算精度確認。",
+        "priority": "high",
+        "dependencies": [
+          "2",
+          "3"
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "decimal.js ライブラリの導入と設定",
+            "description": "高精度計算を実現するためのdecimal.js@10.4.3の導入とプロジェクト設定を行う",
+            "dependencies": [],
+            "details": "npm install decimal.js@10.4.3 でライブラリをインストール。types/calculator.ts に Decimal 型を定義し、基本的な四則演算のヘルパー関数を作成。浮動小数点演算の精度問題を解決するため、全ての計算処理でDecimalクラスを使用する設定を行う。",
+            "status": "pending",
+            "testStrategy": "Decimal による計算結果の精度確認テスト。浮動小数点問題が解決されることを確認。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 2,
+            "title": "CalculatorButton コンポーネントの作成",
+            "description": "再利用可能なボタンコンポーネントを variant props とアクセシビリティ対応で実装する",
+            "dependencies": [
+              1
+            ],
+            "details": "components/CalculatorButton.tsx を作成し、variant props (number, operator, equals, clear) を定義。各variantに応じた適切なスタイリングを実装。aria-label、role属性を追加してアクセシビリティを確保。TypeScriptの型定義も含める。",
+            "status": "pending",
+            "testStrategy": "各variant のレンダリング確認。クリックイベントの動作テスト。アクセシビリティ属性の適用確認。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 3,
+            "title": "基本計算ロジックの実装",
+            "description": "四則演算、クリア、バックスペース等の基本計算機能をdecimal.jsで実装する",
+            "dependencies": [
+              1
+            ],
+            "details": "utils/calculator.ts に基本演算関数 (add, subtract, multiply, divide) を実装。decimal.js を使用して精度の高い計算を実現。division by zero のエラーハンドリングを含める。clear、backspace機能も実装。",
+            "status": "pending",
+            "testStrategy": "四則演算の精度テスト。ゼロ除算エラーハンドリングの確認。クリア・バックスペース機能のテスト。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 4,
+            "title": "state machine パターンの実装",
+            "description": "電卓の状態遷移を管理するstate machineパターンを実装する",
+            "dependencies": [
+              3
+            ],
+            "details": "hooks/useCalculatorState.ts を作成し、state machine パターンで電卓の状態を管理。状態として number-input, operator-input, result-display を定義。各状態間の遷移ロジックを実装し、不正な状態遷移を防ぐ。",
+            "status": "pending",
+            "testStrategy": "状態遷移の正確性確認。不正な状態遷移の防止テスト。各状態での適切な動作確認。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 5,
+            "title": "連続計算制御の実装",
+            "description": "shouldResetDisplay フラグによる連続計算の制御機能を実装する",
+            "dependencies": [
+              4
+            ],
+            "details": "shouldResetDisplay フラグを状態に追加し、結果表示後の新しい数値入力時に自動的にディスプレイをリセットする機能を実装。演算子入力後は前の結果を保持し、連続計算を可能にする制御ロジックを追加。",
+            "status": "pending",
+            "testStrategy": "連続計算の動作確認。ディスプレイリセットのタイミングテスト。演算結果の保持確認。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 6,
+            "title": "基本的なエラーハンドリングの実装",
+            "description": "計算エラー、無効な入力等の基本的なエラーハンドリングを実装する",
+            "dependencies": [
+              3,
+              4
+            ],
+            "details": "ゼロ除算、オーバーフロー、無効な操作等のエラーケースを処理。エラー状態の管理とユーザーへの適切なフィードバック表示を実装。エラー発生時の復旧機能も含める。",
+            "status": "pending",
+            "testStrategy": "各種エラーケースのハンドリング確認。エラーメッセージの表示テスト。エラー状態からの復旧テスト。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 7,
+            "title": "入力検証機能の実装",
+            "description": "数値入力、演算子入力の妥当性検証機能を実装する",
+            "dependencies": [
+              2,
+              4
+            ],
+            "details": "数値入力時の桁数制限、小数点の重複入力防止、演算子の連続入力防止等の入力検証を実装。無効な入力を受け付けないバリデーション機能を追加。最大表示桁数の制限も含める。",
+            "status": "pending",
+            "testStrategy": "各種入力パターンの検証テスト。無効入力の拒否確認。桁数制限の動作テスト。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 8,
+            "title": "ディスプレイ表示制御の実装",
+            "description": "計算結果の表示フォーマット、桁数制御、表示の更新制御を実装する",
+            "dependencies": [
+              5,
+              6
+            ],
+            "details": "数値の表示フォーマット（カンマ区切り、小数点以下の桁数制御）を実装。長い数値の省略表示機能を追加。現在の入力値、計算結果、エラーメッセージの適切な表示制御を実装。",
+            "status": "pending",
+            "testStrategy": "表示フォーマットの確認。長い数値の省略表示テスト。表示更新のタイミング確認。",
+            "parentId": "undefined"
+          }
+        ],
+        "complexity": 8,
+        "recommendedSubtasks": 8,
+        "expansionPrompt": "電卓の核となる計算機能を段階的に実装するため、decimal.js導入、CalculatorButtonコンポーネント作成、基本計算ロジック実装、state machine実装、連続計算制御、エラーハンドリング基本、入力検証、表示制御の各サブタスクに分割してください。"
+      },
+      {
+        "id": 5,
+        "title": "キーボード入力対応とアクセシビリティ機能実装",
+        "description": "キーボードショートカット、フォーカス管理、スクリーンリーダー対応等のアクセシビリティ機能を実装し、WCAG 2.1 AA準拠を達成する",
+        "details": "useEffect フックでkeydown イベントリスナーを実装。キーマッピング: 0-9(数字)、+,-,*,/(演算子)、Enter(=)、Escape(AC)、Backspace(DEL)。focus-trap-react@10.2.3 を使用してキーボードナビゲーション実装。すべてのボタンに適切な aria-label、role 属性を設定。カラーコントラスト比は WCAG AA 基準の4.5:1以上を確保。focus-visible を使用してキーボードフォーカスインジケーターを実装。",
+        "testStrategy": "キーボード操作の動作確認テスト。スクリーンリーダーでの読み上げテスト。タブナビゲーションの順序確認。カラーコントラスト比の測定。フォーカス管理の動作確認。",
+        "priority": "medium",
+        "dependencies": [
+          "4"
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "キーボードイベントハンドラーとキーマッピング実装",
+            "description": "useEffectフックを使用してkeydownイベントリスナーを実装し、電卓操作に必要なキーマッピングを設定する",
+            "dependencies": [],
+            "details": "useEffectでdocument.addEventListenerを設定し、数字キー(0-9)、演算子キー(+,-,*,/)、Enter(=)、Escape(AC)、Backspace(DEL)のマッピングを実装。イベントハンドラー内でkeyCode判定とswitch文による分岐処理を行い、対応するCalculatorの関数を呼び出す構造とする。",
+            "status": "pending",
+            "testStrategy": "各キーの押下で正しい電卓操作が実行されることを確認。数字入力、演算子入力、計算実行、クリア操作の動作テスト。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 2,
+            "title": "focus-trap-reactによるキーボードナビゲーション実装",
+            "description": "focus-trap-react@10.2.3を使用して電卓アプリ内でのキーボードフォーカス管理を実装する",
+            "dependencies": [
+              1
+            ],
+            "details": "focus-trap-reactのFocusTrapコンポーネントで電卓全体を囲み、Tabキーによる順次フォーカス移動を実装。initialFocus、returnFocus設定でフォーカス初期位置と戻り位置を制御。Shift+Tabによる逆方向移動も対応し、電卓ボタンの論理的な順序でフォーカスが移動するように設定。",
+            "status": "pending",
+            "testStrategy": "Tabキーでボタン間のフォーカス移動が論理的順序で動作することを確認。Shift+Tabによる逆方向移動テスト。フォーカストラップの境界動作確認。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 3,
+            "title": "ARIA属性とセマンティック要素の設定",
+            "description": "すべてのボタンと電卓コンポーネントに適切なaria-label、role属性を設定し、スクリーンリーダー対応を実装する",
+            "dependencies": [],
+            "details": "各ボタンにaria-labelで機能説明を設定（例：「数字の1」「足し算」「イコール」）。電卓本体にrole=\"application\"とaria-label=\"電卓」を設定。ディスプレイエリアにaria-live=\"polite\"で計算結果の読み上げを実装。role=\"button\"とaria-pressed状態も必要に応じて設定。",
+            "status": "pending",
+            "testStrategy": "スクリーンリーダー（NVDA、JAWS等）での読み上げ内容確認。ARIA属性が適切に設定されていることをaxe-coreで検証。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 4,
+            "title": "WCAGカラーコントラスト比対応",
+            "description": "WCAG 2.1 AA基準の4.5:1以上のカラーコントラスト比を確保し、視覚的アクセシビリティを向上させる",
+            "dependencies": [],
+            "details": "テキストと背景色のコントラスト比を4.5:1以上に設定。WebAIMのContrast Checkerでカラー値を検証し、ライトモード・ダークモード両方で基準を満たす配色を実装。ボタンのホバー状態、フォーカス状態でもコントラスト比を維持。CSS custom propertiesで管理し、テーマ切り替え時も基準を保持。",
+            "status": "pending",
+            "testStrategy": "WebAIM Contrast CheckerやLighthouseでコントラスト比測定。各状態（通常、ホバー、フォーカス）でのカラー検証。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 5,
+            "title": "focus-visibleによるキーボードフォーカスインジケーター実装",
+            "description": "focus-visibleを使用してキーボード操作時のみ表示されるフォーカスインジケーターを実装する",
+            "dependencies": [
+              2
+            ],
+            "details": ":focus-visible擬似クラスを使用してキーボードフォーカス時のアウトライン表示を実装。マウスクリック時はフォーカスリングを非表示にし、Tabキー移動時のみ視覚的インジケーターを表示。outline-color、outline-width、outline-offsetでアクセシブルなフォーカスリングをデザイン。",
+            "status": "pending",
+            "testStrategy": "キーボードナビゲーション時のフォーカスリング表示確認。マウス操作時の非表示動作テスト。フォーカスインジケーターの視認性確認。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 6,
+            "title": "スクリーンリーダー対応とライブリージョン実装",
+            "description": "計算結果や操作状況をスクリーンリーダーに適切に伝達するライブリージョンとアナウンス機能を実装する",
+            "dependencies": [
+              3
+            ],
+            "details": "計算結果表示エリアにaria-live=\"polite\"を設定し、計算完了時に結果を自動読み上げ。操作ボタン押下時の音声フィードバック機能をaria-labelとuseAnnouncerフックで実装。エラー状態（ゼロ除算等）はaria-live=\"assertive\"で即座に通知。読み上げテキストは自然な日本語表現に調整。",
+            "status": "pending",
+            "testStrategy": "スクリーンリーダーでの操作フロー確認。計算結果の読み上げタイミングテスト。エラー通知の即座性確認。音声ガイダンスの内容検証。",
+            "parentId": "undefined"
+          }
+        ],
+        "complexity": 7,
+        "recommendedSubtasks": 6,
+        "expansionPrompt": "アクセシビリティ機能を包括的に実装するため、キーボードイベント処理、キーマッピング実装、フォーカス管理、ARIA属性設定、カラーコントラスト対応、スクリーンリーダー対応の各サブタスクに分割してください。"
+      },
+      {
+        "id": 6,
+        "title": "エラーハンドリングシステムと例外処理実装",
+        "description": "ゼロ除算、オーバーフロー、無効な演算等のエラーケースを適切に処理し、ユーザーフレンドリーなエラーメッセージを表示するシステムを実装する",
+        "details": "カスタムエラークラス (DivisionByZeroError, OverflowError, InvalidOperationError) を定義。Error Boundary コンポーネントで予期しないエラーをキャッチ。エラー状態の管理には専用のstate を追加し、エラーメッセージの国際化対応も考慮。数値の範囲チェックには Number.MAX_SAFE_INTEGER / Number.MIN_SAFE_INTEGER を使用。エラー状態からの回復ロジックも実装。",
+        "testStrategy": "各種エラーケースの発生と処理をテスト。ゼロ除算、オーバーフロー、無効な入力パターンをテスト。エラーメッセージの表示と消去の動作確認。Error Boundary の動作テスト。",
+        "priority": "medium",
+        "dependencies": [
+          "4"
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "カスタムエラークラスの定義と実装",
+            "description": "ゼロ除算、オーバーフロー、無効な演算等のカスタムエラークラスを定義し、各エラータイプに対応した適切なエラーメッセージを実装する",
+            "dependencies": [],
+            "details": "DivisionByZeroError、OverflowError、InvalidOperationErrorクラスを作成。各クラスはError基底クラスを継承し、nameプロパティとカスタムメッセージを設定。TypeScriptで型安全なエラー処理を実装し、エラーコードとエラー詳細も含める",
+            "status": "pending",
+            "testStrategy": "各カスタムエラークラスのインスタンス化と継承関係をテスト。エラーメッセージの内容と型安全性を確認",
+            "parentId": "undefined"
+          },
+          {
+            "id": 2,
+            "title": "Error Boundaryコンポーネントの実装",
+            "description": "React Error Boundaryを実装して予期しないエラーをキャッチし、アプリケーションのクラッシュを防ぐコンポーネントを作成する",
+            "dependencies": [
+              1
+            ],
+            "details": "react-error-boundaryライブラリを使用してErrorBoundaryコンポーネントを実装。fallbackUIの提供、エラーログの記録、リセット機能を含める。TypeScriptでエラー型の適切な処理を実装",
+            "status": "pending",
+            "testStrategy": "意図的にエラーを発生させてError Boundaryの動作をテスト。fallbackUIの表示とリセット機能を確認",
+            "parentId": "undefined"
+          },
+          {
+            "id": 3,
+            "title": "エラー状態管理システムの実装",
+            "description": "エラー状態を管理する専用のstateとフックを実装し、アプリケーション全体でエラー状態を一元管理できるシステムを構築する",
+            "dependencies": [
+              1
+            ],
+            "details": "useErrorStateカスタムフックを作成してエラー状態を管理。エラーの発生、クリア、タイムアウト機能を実装。Context APIを使用してアプリケーション全体でエラー状態を共有し、TypeScriptでエラー型を厳密に管理",
+            "status": "pending",
+            "testStrategy": "エラー状態の設定、取得、クリア機能をテスト。タイムアウト機能とContext経由でのエラー状態共有を確認",
+            "parentId": "undefined"
+          },
+          {
+            "id": 4,
+            "title": "エラーメッセージ表示とユーザーフレンドリーUI実装",
+            "description": "エラーメッセージを適切にユーザーに表示するUIコンポーネントを実装し、国際化対応と直感的なエラー表示システムを構築する",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "ErrorDisplayコンポーネントを作成してエラーメッセージの表示を管理。react-i18nextを使用してエラーメッセージの多言語対応を実装。エラーの重要度に応じた色分けとアイコン表示、自動消去機能を含める",
+            "status": "pending",
+            "testStrategy": "エラーメッセージの表示、スタイリング、多言語対応をテスト。自動消去タイマーと手動クリア機能を確認",
+            "parentId": "undefined"
+          },
+          {
+            "id": 5,
+            "title": "エラー回復ロジックと数値範囲チェック実装",
+            "description": "エラー状態からの自動回復機能と数値の範囲チェック機能を実装し、安全な計算環境を提供するシステムを構築する",
+            "dependencies": [
+              3,
+              4
+            ],
+            "details": "Number.MAX_SAFE_INTEGER/MIN_SAFE_INTEGERを使用した数値範囲チェック機能を実装。オーバーフロー検出とエラー回復ロジックを追加。計算前の入力値検証と計算後の結果検証を実装し、自動的に安全な状態に復帰する機能を提供",
+            "status": "pending",
+            "testStrategy": "数値範囲チェックの動作をテスト。オーバーフロー発生時の自動回復とエラー状態からの復帰機能を確認",
+            "parentId": "undefined"
+          }
+        ],
+        "complexity": 6,
+        "recommendedSubtasks": 5,
+        "expansionPrompt": "堅牢なエラーハンドリングシステムを構築するため、カスタムエラークラス定義、Error Boundary実装、エラー状態管理、エラーメッセージ表示、エラー回復ロジックの各サブタスクに分割してください。"
+      },
+      {
+        "id": 7,
+        "title": "計算履歴機能とローカルストレージ連携実装",
+        "description": "最新20件の計算履歴を保存・表示し、履歴からの再計算、履歴クリア、エクスポート機能を実装する",
+        "details": "date-fns@3.6.0 を使用して履歴のタイムスタンプフォーマット実装。CalculationHistory 型でid(nanoid@5.0.7)、expression、result、timestamp を管理。履歴パネルはuseToggle カスタムフックでshow/hide制御。履歴のエクスポートはJSON/CSV形式で file-saver@2.0.5 を使用。履歴の検索・フィルタリング機能も実装。LRU cache パターンで20件制限を管理。",
+        "testStrategy": "履歴の保存・読み込み・削除機能をテスト。ローカルストレージの永続化テスト。履歴からの再計算動作確認。エクスポート機能のファイル生成テスト。履歴件数制限の動作確認。",
+        "priority": "medium",
+        "dependencies": [
+          "3",
+          "4"
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "履歴データ型定義とインターフェース設計",
+            "description": "CalculationHistory型、履歴管理インターフェース、およびLRUキャッシュ関連の型定義を実装する",
+            "dependencies": [],
+            "details": "nanoid@5.0.7を使用したユニークID生成、date-fns@3.6.0でのタイムスタンプ管理、CalculationHistory型（id、expression、result、timestamp）の定義、履歴操作用のインターフェース（add、remove、clear、search）、LRUキャッシュパターンの型定義を実装する",
+            "status": "pending",
+            "testStrategy": "型定義の正確性確認、インターフェースの型安全性テスト、データ構造の妥当性検証",
+            "parentId": "undefined"
+          },
+          {
+            "id": 2,
+            "title": "履歴ストアとLRUキャッシュ管理実装",
+            "description": "履歴データの状態管理、LRUキャッシュパターンでの20件制限管理を実装する",
+            "dependencies": [
+              1
+            ],
+            "details": "useReducerまたはZustandを使用した履歴状態管理、LRUキャッシュアルゴリズムによる20件制限実装、履歴の追加・削除・クリア機能、履歴アイテムへのアクセス順序管理、メモリ効率的な履歴データ管理を実装する",
+            "status": "pending",
+            "testStrategy": "20件制限の動作確認、LRU順序の正確性テスト、履歴操作のパフォーマンステスト",
+            "parentId": "undefined"
+          },
+          {
+            "id": 3,
+            "title": "履歴表示UIとパネル切り替え実装",
+            "description": "履歴パネルのUI、useToggleフックでの表示制御、履歴アイテムの表示を実装する",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "useToggleカスタムフックでの履歴パネル表示制御、履歴リストのUI実装、各履歴アイテムの表示フォーマット（式、結果、タイムスタンプ）、履歴からの再計算ボタン、レスポンシブな履歴パネルデザイン、スクロール可能な履歴リストを実装する",
+            "status": "pending",
+            "testStrategy": "履歴パネルの表示切り替えテスト、履歴アイテムの正確な表示確認、再計算機能の動作テスト",
+            "parentId": "undefined"
+          },
+          {
+            "id": 4,
+            "title": "ローカルストレージ連携と永続化実装",
+            "description": "履歴データのローカルストレージ保存・読み込み機能を実装する",
+            "dependencies": [
+              2
+            ],
+            "details": "localStorage APIを使用した履歴データの永続化、アプリ起動時の履歴データ復元、データの整合性チェック、ストレージエラーハンドリング、データの暗号化やバージョン管理、ストレージ容量制限への対応を実装する",
+            "status": "pending",
+            "testStrategy": "データの保存・読み込み正確性テスト、アプリ再起動後の履歴復元確認、ストレージエラー処理テスト",
+            "parentId": "undefined"
+          },
+          {
+            "id": 5,
+            "title": "履歴エクスポート機能実装",
+            "description": "file-saver@2.0.5を使用したJSON/CSV形式での履歴エクスポート機能を実装する",
+            "dependencies": [
+              3
+            ],
+            "details": "file-saver@2.0.5ライブラリによるファイルダウンロード、JSON形式での履歴データエクスポート、CSV形式での履歴データエクスポート、エクスポート時のデータフォーマット処理、ファイル名の自動生成（タイムスタンプ付き）、エクスポートエラーハンドリングを実装する",
+            "status": "pending",
+            "testStrategy": "JSON/CSVファイルの生成確認、エクスポートデータの正確性テスト、ファイル保存機能の動作確認",
+            "parentId": "undefined"
+          },
+          {
+            "id": 6,
+            "title": "履歴検索・フィルタリング機能実装",
+            "description": "履歴の検索、フィルタリング、ソート機能を実装する",
+            "dependencies": [
+              3
+            ],
+            "details": "検索入力フィールドの実装、計算式または結果での部分一致検索、日付範囲によるフィルタリング、結果の昇順・降順ソート、日付によるソート、検索結果のハイライト表示、フィルタ条件のリセット機能、debounce処理による検索パフォーマンス最適化を実装する",
+            "status": "pending",
+            "testStrategy": "検索機能の正確性テスト、フィルタリング動作確認、ソート機能の検証、検索パフォーマンステスト",
+            "parentId": "undefined"
+          }
+        ],
+        "complexity": 7,
+        "recommendedSubtasks": 6,
+        "expansionPrompt": "履歴機能を段階的に実装するため、履歴データ型定義、履歴ストア実装、履歴表示UI、ローカルストレージ連携、エクスポート機能、検索・フィルタリング機能の各サブタスクに分割してください。"
+      },
+      {
+        "id": 8,
+        "title": "科学計算機能と拡張モード実装",
+        "description": "三角関数、対数関数、指数・累乗、平方根等の科学計算機能を実装し、基本モードと科学モードの切り替え機能を追加する",
+        "details": "mathjs@13.1.1 ライブラリを使用して高度な数学関数を実装。sin, cos, tan の角度単位 (degree/radian) 切り替え機能。Math.PI、Math.E の定数対応。factorial 関数は再帰実装。括弧演算には expression parser を使用。科学モードでは5列×7行のボタンレイアウトに切り替え、関数ボタンを追加。mode state で basic/scientific を管理。",
+        "testStrategy": "各科学計算関数の精度テスト。角度単位変換の動作確認。括弧を含む複雑な式の計算テスト。モード切り替えの動作確認。数学定数の値確認。",
+        "priority": "medium",
+        "dependencies": [
+          "4",
+          "5"
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "mathjs ライブラリの導入と基本設定",
+            "description": "mathjs@13.1.1 ライブラリをプロジェクトに導入し、科学計算用の基本設定を行う",
+            "dependencies": [],
+            "details": "npm install mathjs@13.1.1 を実行してライブラリを導入。mathjs の import 設定と TypeScript 型定義の設定。基本的な数学関数（sin, cos, tan, log, exp, sqrt）が利用可能であることを確認。エラーハンドリングの基本構造を実装。",
+            "status": "pending",
+            "testStrategy": "mathjs ライブラリの正常なインポートと基本関数の動作確認テスト",
+            "parentId": "undefined"
+          },
+          {
+            "id": 2,
+            "title": "三角関数（sin, cos, tan）の実装",
+            "description": "三角関数の計算機能を実装し、度数法・弧度法の切り替え機能を追加する",
+            "dependencies": [
+              1
+            ],
+            "details": "sin, cos, tan 関数をmathjs を使用して実装。角度単位の状態管理（degree/radian）を追加。度数法から弧度法への変換ロジック実装。逆三角関数（asin, acos, atan）も同時に実装。精度の高い計算結果を保証。",
+            "status": "pending",
+            "testStrategy": "各三角関数の精度テストと角度単位変換の動作確認",
+            "parentId": "undefined"
+          },
+          {
+            "id": 3,
+            "title": "対数・指数・累乗関数の実装",
+            "description": "対数関数（log, ln）、指数関数（exp）、累乗計算（pow）、平方根（sqrt）を実装する",
+            "dependencies": [
+              1
+            ],
+            "details": "自然対数（ln）、常用対数（log）、指数関数（exp）、累乗計算（x^y）、平方根（√）をmathjs で実装。Math.PI、Math.E の数学定数をボタンとして追加。factorial 関数を再帰実装で追加。エラー処理（負数の平方根など）を適切に実装。",
+            "status": "pending",
+            "testStrategy": "各関数の精度テストと数学定数の値確認、エラーケースの動作確認",
+            "parentId": "undefined"
+          },
+          {
+            "id": 4,
+            "title": "括弧演算と式パーサーの実装",
+            "description": "括弧を含む複雑な数式を正しく解析・計算できる expression parser を実装する",
+            "dependencies": [
+              1,
+              2,
+              3
+            ],
+            "details": "mathjs の evaluate 関数を使用して括弧演算を実装。複雑な数式（例: sin(2*π/3) + log(10)）の解析機能。演算子優先順位の正しい処理。入力validation と構文エラーハンドリング。リアルタイムでの式の妥当性チェック。",
+            "status": "pending",
+            "testStrategy": "括弧を含む複雑な式の計算テストと構文エラーハンドリングの確認",
+            "parentId": "undefined"
+          },
+          {
+            "id": 5,
+            "title": "モード切り替え機能の実装",
+            "description": "基本モードと科学モードの切り替え機能を実装し、モード状態を管理する",
+            "dependencies": [],
+            "details": "basic/scientific モードの状態管理をReact state で実装。モード切り替えボタンの追加。モード変更時のUI更新ロジック。各モードでの利用可能な機能の制御。localStorage でモード設定の永続化。",
+            "status": "pending",
+            "testStrategy": "モード切り替えの動作確認と設定の永続化テスト",
+            "parentId": "undefined"
+          },
+          {
+            "id": 6,
+            "title": "科学モード用UIレイアウトの実装",
+            "description": "科学モード用の5列×7行ボタンレイアウトと科学計算ボタンを実装する",
+            "dependencies": [
+              5
+            ],
+            "details": "CSS Grid を使用して5列×7行のレイアウトを実装。三角関数、対数、指数、累乗、括弧、定数ボタンを追加。基本モード（4列×5行）からの動的レイアウト変更。レスポンシブデザインの維持。ボタンサイズとスペーシングの最適化。",
+            "status": "pending",
+            "testStrategy": "科学モードUIの表示確認とレスポンシブ動作のテスト",
+            "parentId": "undefined"
+          },
+          {
+            "id": 7,
+            "title": "角度単位切り替え機能の実装",
+            "description": "度数法（degree）と弧度法（radian）の切り替え機能とUIインジケーターを実装する",
+            "dependencies": [
+              2,
+              6
+            ],
+            "details": "DEG/RAD 切り替えボタンの実装。現在の角度単位を表示するインジケーター。三角関数計算時の自動単位変換。切り替え状態の localStorage 保存。視覚的にわかりやすいUI表示（アクティブ状態の表示）。",
+            "status": "pending",
+            "testStrategy": "角度単位切り替えの動作確認と計算結果の精度テスト",
+            "parentId": "undefined"
+          }
+        ],
+        "complexity": 8,
+        "recommendedSubtasks": 7,
+        "expansionPrompt": "科学計算機能を体系的に実装するため、mathjs導入、三角関数実装、対数・指数関数実装、括弧演算パーサー、モード切り替え機能、科学モードUI、角度単位切り替えの各サブタスクに分割してください。"
+      },
+      {
+        "id": 9,
+        "title": "テーマシステムとダークモード実装",
+        "description": "ライトモード・ダークモードの切り替え機能を実装し、ユーザーの設定を保存できるテーマシステムを構築する",
+        "details": "CSS custom properties とuse-dark-mode@2.3.1 フックを使用してテーマ実装。prefers-color-scheme メディアクエリでシステム設定を検出。テーマ切り替えボタンにはsun/moon アイコン (lucide-react@0.447.0) を使用。framer-motion@11.11.1 でスムーズなテーマ切り替えアニメーション実装。テーマ設定はlocalStorage で永続化。カスタムCSS properties で全カラーを管理。",
+        "testStrategy": "テーマ切り替えの動作確認。システム設定の自動検出テスト。カラー値の正確な適用確認。アニメーションの動作テスト。設定の永続化確認。",
+        "priority": "medium",
+        "dependencies": [
+          "2",
+          "3"
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "CSS変数システムとカラーパレット設計",
+            "description": "ライトモード・ダークモード用のCSS custom propertiesを定義し、全体的なカラーシステムを構築する",
+            "dependencies": [],
+            "details": "CSS custom properties で--color-background、--color-text、--color-primary等の変数を定義。ライト・ダークテーマ用の完全なカラーパレットを設計し、既存のコンポーネントで使用されている色をCSS変数に置き換える。:root要素でデフォルトテーマを設定し、[data-theme='dark']属性でダークテーマカラーを定義する。",
+            "status": "pending",
+            "testStrategy": "カラー変数の定義確認と既存コンポーネントでの正しい適用をテスト",
+            "parentId": "undefined"
+          },
+          {
+            "id": 2,
+            "title": "use-dark-modeフックとテーマ状態管理実装",
+            "description": "use-dark-mode@2.3.1を使用してテーマ状態を管理し、localStorageとの連携を実装する",
+            "dependencies": [
+              1
+            ],
+            "details": "use-dark-modeフックをインストールして設定。defaultDark、localStorageKey、classNameDark等のオプションを適切に設定。テーマ切り替え機能とlocalStorageでの設定永続化を実装。prefers-color-schemeメディアクエリを使用してシステム設定の自動検出を行う。",
+            "status": "pending",
+            "testStrategy": "テーマ切り替え動作とlocalStorage永続化の確認テスト",
+            "parentId": "undefined"
+          },
+          {
+            "id": 3,
+            "title": "システム設定検出とprefers-color-scheme対応",
+            "description": "ユーザーのシステム設定を検出してデフォルトテーマを自動設定する機能を実装する",
+            "dependencies": [
+              2
+            ],
+            "details": "prefers-color-schemeメディアクエリを使用してシステムのダークモード設定を検出。初回訪問時にシステム設定に基づいてテーマを自動設定。ユーザーが手動でテーマを変更した後はその設定を優先する仕組みを実装。window.matchMediaを使用してリアルタイムでシステム設定変更を検出。",
+            "status": "pending",
+            "testStrategy": "システム設定検出の動作確認とテーマ自動設定のテスト",
+            "parentId": "undefined"
+          },
+          {
+            "id": 4,
+            "title": "テーマ切り替えUIとlucide-reactアイコン実装",
+            "description": "sun/moonアイコンを使用したテーマ切り替えボタンのUIを実装する",
+            "dependencies": [
+              3
+            ],
+            "details": "lucide-react@0.447.0のSunアイコンとMoonアイコンを使用してテーマ切り替えボタンを作成。ライトモード時はMoonアイコン、ダークモード時はSunアイコンを表示。ボタンはヘッダー部分に配置し、アクセシブルなaria-labelとrole属性を設定。hover、focus状態のスタイリングも実装。",
+            "status": "pending",
+            "testStrategy": "アイコンの表示切り替えとボタンの動作確認テスト",
+            "parentId": "undefined"
+          },
+          {
+            "id": 5,
+            "title": "framer-motionアニメーション実装",
+            "description": "framer-motion@11.11.1を使用してスムーズなテーマ切り替えアニメーションを実装する",
+            "dependencies": [
+              4
+            ],
+            "details": "framer-motionのAnimatePresenceとmotionコンポーネントを使用してテーマ切り替え時のアニメーションを実装。アイコンの回転アニメーション、カラー変更時のフェードトランジション、スケールアニメーション等を追加。アニメーション時間は0.3秒程度に設定し、easeInOut カーブを使用して自然な動きを実現。",
+            "status": "pending",
+            "testStrategy": "テーマ切り替えアニメーションの動作確認とパフォーマンステスト",
+            "parentId": "undefined"
+          }
+        ],
+        "complexity": 6,
+        "recommendedSubtasks": 5,
+        "expansionPrompt": "テーマシステムを段階的に構築するため、CSS変数システム設計、テーマ状態管理、システム設定検出、テーマ切り替えUI、アニメーション実装の各サブタスクに分割してください。"
+      },
+      {
+        "id": 10,
+        "title": "テスト実装とパフォーマンス最適化",
+        "description": "Vitest + React Testing Library による包括的なテストスイートを実装し、パフォーマンス最適化とLighthouse スコア90点以上を達成する",
+        "details": "@testing-library/react@16.0.1、@testing-library/jest-dom@6.5.0、@testing-library/user-event@14.5.2 でテスト環境構築。React.memo、useMemo、useCallback でレンダリング最適化。code splitting は React.lazy とSuspense で実装。bundle analyzer でバンドルサイズ最適化。lighthouse-ci@0.12.0 でパフォーマンス計測自動化。テストカバレッジ80%以上を@vitest/coverage-v8@2.1.1 で確保。",
+        "testStrategy": "ユニットテスト、統合テスト、E2Eテストの実装。計算ロジック、UI コンポーネント、状態管理の全テスト。パフォーマンステストとLighthouse スコア測定。テストカバレッジレポートの生成。",
+        "priority": "medium",
+        "dependencies": [
+          "1",
+          "4",
+          "6",
+          "7",
+          "8",
+          "9"
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "テスト環境構築とVitest設定",
+            "description": "Vitest、React Testing Library、Jest DOM等のテストライブラリを導入し、基本的なテスト環境を構築する",
+            "dependencies": [],
+            "details": "@testing-library/react@16.0.1、@testing-library/jest-dom@6.5.0、@testing-library/user-event@14.5.2、vitest@2.1.1をインストール。vitest.config.tsでテスト環境設定、jsdomセットアップ、カバレッジ設定を実装。setupTests.tsでjest-domのimportとグローバル設定を行う。",
+            "status": "pending",
+            "testStrategy": "テスト環境が正常に動作することを確認。サンプルテストを実行してVitest設定の検証。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 2,
+            "title": "ユニットテスト実装 - 計算ロジック",
+            "description": "計算機の核となる計算ロジック、状態管理フック、ユーティリティ関数のユニットテストを実装する",
+            "dependencies": [
+              1
+            ],
+            "details": "useCalculator hookの全機能テスト、四則演算、科学計算、エラーハンドリングのテストケース作成。計算の正確性、状態遷移、エッジケースを網羅的にテスト。各計算関数の単体テストを実装。",
+            "status": "pending",
+            "testStrategy": "計算ロジックの正確性検証。境界値テスト、異常系テスト、状態管理テストを実施。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 3,
+            "title": "コンポーネント統合テスト実装",
+            "description": "Calculatorコンポーネント、ボタンコンポーネント、ディスプレイコンポーネントの統合テストを実装する",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "ユーザーインタラクションのフルフローテスト、ボタンクリック、キーボード入力、状態変更の統合テスト。React Testing Libraryを使用してユーザー視点でのテストを作成。モード切り替え、エラー表示等のUIテスト。",
+            "status": "pending",
+            "testStrategy": "ユーザーシナリオベースの統合テスト。UI操作とデータ連携の動作確認。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 4,
+            "title": "パフォーマンス最適化 - React最適化",
+            "description": "React.memo、useMemo、useCallbackを使用してコンポーネントのレンダリング最適化を実装する",
+            "dependencies": [
+              3
+            ],
+            "details": "不要な再レンダリングを防ぐためReact.memoでコンポーネントをメモ化。useCallbackで関数をメモ化、useMemoで計算結果をキャッシュ。React DevTools Profilerで最適化効果を測定し、レンダリング回数を最小化。",
+            "status": "pending",
+            "testStrategy": "React DevTools Profilerでレンダリング回数とパフォーマンスを測定。最適化前後の比較検証。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 5,
+            "title": "バンドル最適化とコード分割",
+            "description": "React.lazy、Suspense、webpack-bundle-analyzerを使用してバンドルサイズ最適化とコード分割を実装する",
+            "dependencies": [
+              4
+            ],
+            "details": "科学計算機能をReact.lazyで遅延ローディング実装。Suspenseでローディング状態を管理。webpack-bundle-analyzerでバンドルサイズ分析、不要な依存関係を除去。tree-shakingを活用してバンドルサイズを最小化。",
+            "status": "pending",
+            "testStrategy": "バンドルサイズの測定と最適化効果の検証。ローディング時間とユーザー体験の改善確認。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 6,
+            "title": "Lighthouseパフォーマンス測定とCI設定",
+            "description": "lighthouse-ciを使用してパフォーマンス測定を自動化し、Lighthouseスコア90点以上を達成する",
+            "dependencies": [
+              5
+            ],
+            "details": "lighthouse-ci@0.12.0をインストールし、CI/CDパイプラインに統合。Performance、Accessibility、Best Practices、SEOの各スコアを測定。lighthouserc.jsで設定ファイルを作成し、スコア閾値を設定。",
+            "status": "pending",
+            "testStrategy": "Lighthouseスコアの継続的な監視。パフォーマンス劣化の自動検出とアラート。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 7,
+            "title": "テストカバレッジ計測と品質管理",
+            "description": "@vitest/coverage-v8を使用してテストカバレッジ80%以上を達成し、品質管理システムを構築する",
+            "dependencies": [
+              6
+            ],
+            "details": "@vitest/coverage-v8@2.1.1でカバレッジ測定を設定。statements、branches、functions、linesの各カバレッジを80%以上に設定。カバレッジレポートの生成とHTMLレポートの出力。品質ゲートの設定。",
+            "status": "pending",
+            "testStrategy": "カバレッジ目標の達成確認。未テスト箇所の特定と追加テスト実装。品質指標の継続的な監視。",
+            "parentId": "undefined"
+          },
+          {
+            "id": 8,
+            "title": "CI/CDパイプライン統合と自動化",
+            "description": "テスト実行、パフォーマンス測定、カバレッジ計測をCI/CDパイプラインに統合し、品質保証の自動化を実現する",
+            "dependencies": [
+              7
+            ],
+            "details": "GitHub Actionsでテスト、Lighthouse、カバレッジの自動実行を設定。プルリクエスト時の品質チェック、デプロイ前のパフォーマンス検証を自動化。テスト失敗時のデプロイ阻止、レポート生成とアーティファクト保存を実装。",
+            "status": "pending",
+            "testStrategy": "CI/CDパイプラインの動作確認。自動テスト、品質チェック、デプロイフローの検証。",
+            "parentId": "undefined"
+          }
+        ],
+        "complexity": 9,
+        "recommendedSubtasks": 8,
+        "expansionPrompt": "包括的なテストとパフォーマンス最適化を実現するため、テスト環境構築、ユニットテスト実装、統合テスト実装、コンポーネント最適化、バンドル最適化、パフォーマンス計測、CI/CD設定、カバレッジ確保の各サブタスクに分割してください。"
+      }
+    ],
+    "metadata": {
+      "version": "1.0.0",
+      "lastModified": "2025-10-21T05:32:47.499Z",
+      "taskCount": 10,
+      "completedCount": 0,
+      "tags": [
+        "master"
+      ],
+      "created": "2025-10-21T06:20:08.574Z",
+      "description": "Tasks for master context",
+      "updated": "2025-10-21T06:39:26.559Z"
+    }
+  }
+}
