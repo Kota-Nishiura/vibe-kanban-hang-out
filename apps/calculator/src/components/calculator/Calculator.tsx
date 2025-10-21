@@ -89,7 +89,7 @@ export function Calculator() {
   }, [handleButtonClick]);
 
   return (
-    <div className="w-full max-w-calculator-mobile sm:max-w-[400px] md:max-w-calculator mx-auto px-4 sm:px-0">
+    <div className="w-full sm:w-[400px] md:w-[500px] mx-auto px-4 sm:px-0">
       {/* 電卓コンテナ */}
       <div
         className="bg-calculator-display rounded-2xl shadow-2xl overflow-hidden"

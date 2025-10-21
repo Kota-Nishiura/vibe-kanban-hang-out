@@ -5,6 +5,44 @@ import type { CalculatorState, Operator, CalculatorMode, HistoryEntry } from '..
 import { initialCalculatorState } from '../types';
 
 /**
+ * 電卓の定数
+ */
+const MAX_DIGITS = 15; // 最大入力桁数
+
+/**
+ * 数値を表示用にフォーマット
+ * 15桁を超える場合は科学的記数法で表示
+ */
+const formatNumber = (value: number): string => {
+  const str = String(value);
+
+  // 整数部分の桁数をチェック
+  const [integerPart] = str.split('.');
+  const cleanInteger = integerPart.replace('-', '');
+
+  // 15桁を超える場合は科学的記数法
+  if (cleanInteger.length > MAX_DIGITS) {
+    return value.toExponential(10);
+  }
+
+  // 非常に大きい数値または小さい数値も科学的記数法
+  if (Math.abs(value) >= 1e15 || (Math.abs(value) < 1e-6 && value !== 0)) {
+    return value.toExponential(10);
+  }
+
+  return str;
+};
+
+/**
+ * 入力桁数をチェック
+ */
+const canAddDigit = (currentValue: string): boolean => {
+  // 小数点を除いた桁数をカウント
+  const digits = currentValue.replace('.', '').replace('-', '');
+  return digits.length < MAX_DIGITS;
+};
+
+/**
  * 電卓ストアのアクション
  */
 interface CalculatorActions {
@@ -63,12 +101,19 @@ export const useCalculatorStore = create<CalculatorStore>()(
               return;
             }
 
-            // 0の場合は上書き、それ以外は追加
+            // 0の場合は上書き
             if (state.currentValue === '0') {
               state.currentValue = digit;
-            } else {
-              state.currentValue += digit;
+              return;
             }
+
+            // 桁数制限チェック
+            if (!canAddDigit(state.currentValue)) {
+              return; // 15桁を超える場合は入力を無視
+            }
+
+            // 桁を追加
+            state.currentValue += digit;
           }),
 
         inputOperator: (operator: Operator) =>
@@ -105,7 +150,7 @@ export const useCalculatorStore = create<CalculatorStore>()(
                   break;
               }
 
-              state.currentValue = String(result);
+              state.currentValue = formatNumber(result);
             }
 
             state.previousValue = state.currentValue;
@@ -125,9 +170,16 @@ export const useCalculatorStore = create<CalculatorStore>()(
             }
 
             // 既に小数点がある場合は何もしない
-            if (!state.currentValue.includes('.')) {
-              state.currentValue += '.';
+            if (state.currentValue.includes('.')) {
+              return;
             }
+
+            // 桁数制限チェック (小数点は桁数に含まない)
+            if (!canAddDigit(state.currentValue)) {
+              return;
+            }
+
+            state.currentValue += '.';
           }),
 
         clear: () =>
@@ -185,7 +237,7 @@ export const useCalculatorStore = create<CalculatorStore>()(
             }
 
             const expression = `${state.previousValue} ${state.operator} ${state.currentValue}`;
-            const resultStr = String(result);
+            const resultStr = formatNumber(result);
 
             // 履歴に追加
             state.history.unshift({

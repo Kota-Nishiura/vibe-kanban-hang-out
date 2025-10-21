@@ -1,73 +1,102 @@
-# React + TypeScript + Vite
+# 電卓アプリ (Calculator App)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript + Vite + Zustandで構築されたモダンな電卓アプリケーション
 
-Currently, two official plugins are available:
+## 特徴
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- ✨ **モダンなUI**: Tailwind CSSによる美しいレスポンシブデザイン
+- 🎯 **状態管理**: Zustandによる効率的な状態管理
+- 📱 **レスポンシブ**: モバイルからデスクトップまで対応
+- ⌨️ **キーボード対応**: キーボードショートカットで操作可能
+- 💾 **履歴保存**: 計算履歴をローカルストレージに自動保存
+- 🌓 **ダークモード**: ライト/ダークモード対応
+- ♿ **アクセシビリティ**: WAI-ARIA対応
 
-## React Compiler
+## 技術スタック
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **フレームワーク**: React 18
+- **言語**: TypeScript
+- **ビルドツール**: Vite
+- **状態管理**: Zustand (immer, persist, devtools middleware)
+- **スタイリング**: Tailwind CSS
+- **テスト**: Vitest + React Testing Library
+- **リンティング**: ESLint + Prettier
 
-## Expanding the ESLint configuration
+## 電卓の仕様
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 入力制限
+- **最大桁数**: 15桁
+- **動作**: 15桁を超える入力は無視される
+- **理由**: JavaScriptのNumber型の精度限界(約15-17桁)に基づく
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 表示形式
+- **15桁以内**: そのまま表示 (例: `123456789`)
+- **15桁超**: 科学的記数法で表示 (例: `1.2345678900e+20`)
+- **非常に小さい数値**: 科学的記数法で表示 (例: `1.2345678900e-10`)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### サポートする演算
+- 四則演算: `+` (加算), `−` (減算), `×` (乗算), `÷` (除算)
+- モジュロ演算: `%`
+- 小数点演算: `.`
+- エラーハンドリング: ゼロ除算エラー検出
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 計算履歴
+- 最大20件まで自動保存
+- ローカルストレージに永続化
+- 履歴から結果を復元可能
+
+## セットアップ
+
+```bash
+# 依存関係をインストール
+npm install
+
+# 開発サーバーを起動
+npm run dev
+
+# テストを実行
+npm test
+
+# ビルド
+npm run build
+
+# プレビュー
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## プロジェクト構造
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── components/
+│   ├── common/
+│   │   ├── Button.tsx        # 再利用可能なボタンコンポーネント
+│   │   └── index.ts
+│   └── calculator/
+│       ├── Calculator.tsx     # メインコンポーネント
+│       ├── Display.tsx        # ディスプレイコンポーネント
+│       ├── ButtonGrid.tsx     # ボタングリッドコンポーネント
+│       └── index.ts
+├── store/
+│   ├── calculatorStore.ts     # Zustand状態管理
+│   └── index.ts
+├── types/
+│   ├── calculator.ts          # TypeScript型定義
+│   └── index.ts
+├── App.tsx
+├── main.tsx
+└── index.css
+```
+
+## キーボードショートカット
+
+- **数字キー** (`0-9`): 数字入力
+- **演算子** (`+`, `-`, `*`, `/`, `%`): 演算子入力
+- **Enter** または `=`: 計算実行
+- **Escape**: クリア
+- **Backspace**: 1文字削除
+- **`.`**: 小数点入力
+
+## ライセンス
+
+MIT
