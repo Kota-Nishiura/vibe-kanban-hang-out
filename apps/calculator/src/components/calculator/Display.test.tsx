@@ -28,8 +28,9 @@ describe('Display', () => {
     const longExpression = '1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 + 11 + 12';
     render(<Display expression={longExpression} result="78" />);
     const expressionElement = screen.getByLabelText('入力された数式');
-    // 親要素にoverflow-x-autoが適用されている
-    expect(expressionElement.parentElement).toHaveClass('overflow-x-auto');
+    // expressionElement自体にoverflow-x-autoとoverflow-y-hiddenが適用されている
+    expect(expressionElement).toHaveClass('overflow-x-auto');
+    expect(expressionElement).toHaveClass('overflow-y-hidden');
     expect(expressionElement).toHaveClass('whitespace-nowrap');
   });
 
