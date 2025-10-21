@@ -1,19 +1,55 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Display } from './Display';
 import { ButtonGrid } from './ButtonGrid';
+import { useCalculatorStore } from '../../store';
 
 /**
  * 電卓のメインコンポーネント
  * ヘッダー、ディスプレイエリア、ボタングリッドから構成される
  */
 export function Calculator() {
-  const [mode, setMode] = useState<'basic' | 'scientific'>('basic');
-  const [expression, setExpression] = useState('');
-  const [result, setResult] = useState('0');
+  const {
+    currentValue,
+    expression,
+    hasError,
+    mode,
+    setMode,
+    inputDigit,
+    inputOperator,
+    inputDecimal,
+    clear,
+    backspace,
+    calculate,
+  } = useCalculatorStore();
 
   const handleButtonClick = (value: string) => {
-    // ボタンクリックのロジックは後のタスクで実装
-    console.log('Button clicked:', value);
+    // 数字入力
+    if (/^[0-9]$/.test(value)) {
+      inputDigit(value);
+      return;
+    }
+
+    // 演算子入力
+    if (['+', '−', '×', '÷', '%'].includes(value)) {
+      inputOperator(value as any);
+      return;
+    }
+
+    // その他のボタン
+    switch (value) {
+      case '.':
+        inputDecimal();
+        break;
+      case 'C':
+        clear();
+        break;
+      case '⌫':
+        backspace();
+        break;
+      case '=':
+        calculate();
+        break;
+    }
   };
 
   // キーボードナビゲーション対応
@@ -50,10 +86,10 @@ export function Calculator() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [handleButtonClick]);
 
   return (
-    <div className="w-full max-w-calculator-mobile sm:max-w-[400px] md:max-w-calculator mx-auto px-4 sm:px-0">
+    <div className="w-full sm:w-[400px] md:w-[500px] mx-auto px-4 sm:px-0">
       {/* 電卓コンテナ */}
       <div
         className="bg-calculator-display rounded-2xl shadow-2xl overflow-hidden"
@@ -95,7 +131,7 @@ export function Calculator() {
 
         {/* ディスプレイエリア */}
         <div className="bg-calculator-display p-4 sm:p-6">
-          <Display expression={expression} result={result} />
+          <Display expression={expression} result={currentValue} hasError={hasError} />
         </div>
 
         {/* ボタングリッドエリア */}

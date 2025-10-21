@@ -3,15 +3,15 @@ import { render, screen } from '@testing-library/react';
 import App from './App';
 
 describe('App', () => {
-  it('renders Vite + React heading', () => {
+  it('電卓アプリが表示される', () => {
     render(<App />);
-    const heading = screen.getByText(/Vite \+ React/i);
+    const heading = screen.getByText(/電卓アプリ/i);
     expect(heading).toBeInTheDocument();
   });
 
-  it('renders count button', () => {
+  it('電卓のディスプレイが表示される', () => {
     render(<App />);
-    const button = screen.getByRole('button', { name: /count is 0/i });
-    expect(button).toBeInTheDocument();
+    const display = screen.getByLabelText('電卓ディスプレイ');
+    expect(display).toBeInTheDocument();
   });
 });

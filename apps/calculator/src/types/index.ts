@@ -1,2 +1,3 @@
-// Export TypeScript types and interfaces
-export type { Operator, CalculatorState, CalculationHistory } from './calculator';
+// Export all types
+export type { Operator, CalculatorMode, HistoryEntry, CalculatorState } from './calculator';
+export { initialCalculatorState } from './calculator';
