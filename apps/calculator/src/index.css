@@ -1,68 +1,95 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
+@layer base {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    /* Light mode colors */
+    --calc-bg: #f5f5f5;
+    --calc-display-bg: #ffffff;
+    --calc-display-text: #1a1a1a;
+    --calc-btn-number: #ffffff;
+    --calc-btn-operator: #ff9500;
+    --calc-btn-equals: #34c759;
+    --calc-btn-clear: #ff3b30;
+    --calc-btn-text: #1a1a1a;
+    --calc-btn-hover: rgba(0, 0, 0, 0.1);
+
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  a:hover {
-    color: #747bff;
+
+  .dark {
+    /* Dark mode colors */
+    --calc-bg: #1a1a1a;
+    --calc-display-bg: #2c2c2c;
+    --calc-display-text: #ffffff;
+    --calc-btn-number: #3a3a3a;
+    --calc-btn-operator: #ff9500;
+    --calc-btn-equals: #34c759;
+    --calc-btn-clear: #ff3b30;
+    --calc-btn-text: #ffffff;
+    --calc-btn-hover: rgba(255, 255, 255, 0.1);
   }
-  button {
-    background-color: #f9f9f9;
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    display: flex;
+    place-items: center;
+    justify-content: center;
+    min-width: 320px;
+    min-height: 100vh;
+    background-color: var(--calc-bg);
+    transition: background-color 0.3s ease;
+  }
+
+  #root {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+  }
+}
+
+@layer components {
+  .calculator-button {
+    @apply rounded-lg font-semibold text-lg transition-all duration-150 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  .calculator-button-number {
+    @apply calculator-button bg-calculator-btn-number text-calculator-btn-text hover:bg-opacity-80;
+  }
+
+  .calculator-button-operator {
+    @apply calculator-button bg-calculator-btn-operator text-white hover:bg-opacity-80;
+  }
+
+  .calculator-button-equals {
+    @apply calculator-button bg-calculator-btn-equals text-white hover:bg-opacity-80;
+  }
+
+  .calculator-button-clear {
+    @apply calculator-button bg-calculator-btn-clear text-white hover:bg-opacity-80;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
 }
