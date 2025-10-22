@@ -190,9 +190,10 @@
             "description": "状態管理に必要なZustand、immer、関連ライブラリを導入し、TypeScriptプロジェクトでの基本設定を行う",
             "dependencies": [],
             "details": "zustand@4.5.5、immer@10.1.1をインストール。tsconfig.jsonの設定を確認し、状態管理ライブラリが適切に動作する環境を構築。package.jsonのscriptsにtypecheck用コマンドを追加。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "依存関係のインストール確認とTypeScriptビルドエラーがないことを確認",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2025-10-22T10:09:35.259Z"
           },
           {
             "id": 2,
@@ -202,9 +203,10 @@
               1
             ],
             "details": "types/calculator.tsファイルを作成し、CalculatorState（display, previousOperand, operator, waitingForOperand等）、Operator（加減乗除）、CalculationHistory（timestamp, expression, result）、ErrorStateの型を定義。Union typesとliteral typesを適切に使用。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "型定義のコンパイルエラーがないことを確認し、基本的な型チェックをテスト",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2025-10-22T10:09:35.262Z"
           },
           {
             "id": 3,
@@ -214,9 +216,10 @@
               2
             ],
             "details": "stores/calculatorStore.tsを作成し、useCalculatorStoreフックを実装。初期状態の定義、基本的なstate構造を構築。subscribeWithSelectorミドルウェアの設定を含む。型安全性を確保したストア作成。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "ストアの初期化と基本的な状態読み取りが正常に動作することを確認",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2025-10-22T10:09:35.264Z"
           },
           {
             "id": 4,
@@ -226,9 +229,10 @@
               3
             ],
             "details": "inputNumber、inputOperator、calculate、clear、backspace等のアクションメソッドを実装。各アクションでの状態遷移ロジックを定義。エラーハンドリングと不正な状態遷移の防止を含む。immerを使用したimmutableな更新パターンを適用。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "各アクションの状態更新が正しく動作し、期待される計算結果が得られることをテスト",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2025-10-22T10:09:35.273Z"
           },
           {
             "id": 5,
@@ -238,9 +242,10 @@
               4
             ],
             "details": "persistミドルウェアの設定を追加し、計算履歴と設定をlocalStorageに保存。partialize機能で保存対象を選択的に設定。ブラウザリロード時の状態復元機能を実装。ストレージエラーのハンドリングを含む。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "状態の保存・復元が正常に動作し、ブラウザリロード後も状態が維持されることを確認",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2025-10-22T10:09:35.275Z"
           },
           {
             "id": 6,
@@ -250,9 +255,10 @@
               5
             ],
             "details": "immerミドルウェアをストアに統合し、複雑な状態更新をmutableな記法で記述できるように設定。特に計算履歴の配列操作と設定オブジェクトの更新で活用。draftStateを使用した安全な状態更新パターンを実装。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "immerを使用した状態更新が正しく動作し、元の状態が変更されていないことを確認",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2025-10-22T10:09:35.276Z"
           },
           {
             "id": 7,
@@ -262,15 +268,16 @@
               6
             ],
             "details": "subscribeWithSelectorミドルウェアとdevtoolsミドルウェアを設定。ストアの状態変更をReact DevToolsで追跡可能にする。development環境でのロギング機能を追加。production buildでは自動的に無効化される設定を実装。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "DevToolsで状態変更が正しく表示され、開発環境でのデバッグが効率的に行えることを確認",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2025-10-22T10:09:35.277Z"
           }
         ],
         "complexity": 8,
         "recommendedSubtasks": 7,
         "expansionPrompt": "状態管理システムを体系的に構築するため、Zustand導入、基本型定義、状態ストア実装、アクション定義、persist middleware設定、immer統合、DevTools連携の各サブタスクに分割してください。",
-        "updatedAt": "2025-10-21T10:03:41.777Z"
+        "updatedAt": "2025-10-22T10:09:35.277Z"
       },
       {
         "id": "4",
@@ -283,7 +290,7 @@
           "2",
           "3"
         ],
-        "status": "in-progress",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -291,9 +298,10 @@
             "description": "高精度計算を実現するためのdecimal.js@10.4.3の導入とプロジェクト設定を行う",
             "dependencies": [],
             "details": "npm install decimal.js@10.4.3 でライブラリをインストール。types/calculator.ts に Decimal 型を定義し、基本的な四則演算のヘルパー関数を作成。浮動小数点演算の精度問題を解決するため、全ての計算処理でDecimalクラスを使用する設定を行う。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Decimal による計算結果の精度確認テスト。浮動小数点問題が解決されることを確認。",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2025-10-22T10:06:00.619Z"
           },
           {
             "id": 2,
@@ -303,9 +311,10 @@
               1
             ],
             "details": "components/CalculatorButton.tsx を作成し、variant props (number, operator, equals, clear) を定義。各variantに応じた適切なスタイリングを実装。aria-label、role属性を追加してアクセシビリティを確保。TypeScriptの型定義も含める。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "各variant のレンダリング確認。クリックイベントの動作テスト。アクセシビリティ属性の適用確認。",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2025-10-22T10:06:28.953Z"
           },
           {
             "id": 3,
@@ -315,9 +324,10 @@
               1
             ],
             "details": "utils/calculator.ts に基本演算関数 (add, subtract, multiply, divide) を実装。decimal.js を使用して精度の高い計算を実現。division by zero のエラーハンドリングを含める。clear、backspace機能も実装。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "四則演算の精度テスト。ゼロ除算エラーハンドリングの確認。クリア・バックスペース機能のテスト。",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2025-10-22T10:06:28.962Z"
           },
           {
             "id": 4,
@@ -327,9 +337,10 @@
               3
             ],
             "details": "hooks/useCalculatorState.ts を作成し、state machine パターンで電卓の状態を管理。状態として number-input, operator-input, result-display を定義。各状態間の遷移ロジックを実装し、不正な状態遷移を防ぐ。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "状態遷移の正確性確認。不正な状態遷移の防止テスト。各状態での適切な動作確認。",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2025-10-22T10:06:28.966Z"
           },
           {
             "id": 5,
@@ -339,9 +350,10 @@
               4
             ],
             "details": "shouldResetDisplay フラグを状態に追加し、結果表示後の新しい数値入力時に自動的にディスプレイをリセットする機能を実装。演算子入力後は前の結果を保持し、連続計算を可能にする制御ロジックを追加。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "連続計算の動作確認。ディスプレイリセットのタイミングテスト。演算結果の保持確認。",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2025-10-22T10:06:28.970Z"
           },
           {
             "id": 6,
@@ -352,9 +364,10 @@
               4
             ],
             "details": "ゼロ除算、オーバーフロー、無効な操作等のエラーケースを処理。エラー状態の管理とユーザーへの適切なフィードバック表示を実装。エラー発生時の復旧機能も含める。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "各種エラーケースのハンドリング確認。エラーメッセージの表示テスト。エラー状態からの復旧テスト。",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2025-10-22T10:06:28.988Z"
           },
           {
             "id": 7,
@@ -365,9 +378,10 @@
               4
             ],
             "details": "数値入力時の桁数制限、小数点の重複入力防止、演算子の連続入力防止等の入力検証を実装。無効な入力を受け付けないバリデーション機能を追加。最大表示桁数の制限も含める。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "各種入力パターンの検証テスト。無効入力の拒否確認。桁数制限の動作テスト。",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2025-10-22T10:06:28.989Z"
           },
           {
             "id": 8,
@@ -378,15 +392,16 @@
               6
             ],
             "details": "数値の表示フォーマット（カンマ区切り、小数点以下の桁数制御）を実装。長い数値の省略表示機能を追加。現在の入力値、計算結果、エラーメッセージの適切な表示制御を実装。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "表示フォーマットの確認。長い数値の省略表示テスト。表示更新のタイミング確認。",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2025-10-22T10:06:28.991Z"
           }
         ],
         "complexity": 8,
         "recommendedSubtasks": 8,
         "expansionPrompt": "電卓の核となる計算機能を段階的に実装するため、decimal.js導入、CalculatorButtonコンポーネント作成、基本計算ロジック実装、state machine実装、連続計算制御、エラーハンドリング基本、入力検証、表示制御の各サブタスクに分割してください。",
-        "updatedAt": "2025-10-21T11:58:08.564Z"
+        "updatedAt": "2025-10-22T10:06:28.991Z"
       },
       {
         "id": "5",
@@ -934,9 +949,9 @@
     ],
     "metadata": {
       "version": "1.0.0",
-      "lastModified": "2025-10-21T11:58:08.565Z",
+      "lastModified": "2025-10-22T10:09:35.277Z",
       "taskCount": 10,
-      "completedCount": 3,
+      "completedCount": 4,
       "tags": [
         "master"
       ]

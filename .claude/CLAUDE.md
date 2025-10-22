@@ -300,7 +300,15 @@ chore(deps): dependenciesを最新版に更新
 - `fix/*`: バグ修正
 - `refactor/*`: リファクタリング
 
-### 7.3 プルリクエスト
+### 7.3 ブランチ運用ルール
+- **`main`と`develop`への直接pushは禁止**
+- すべての変更は`feature/*`、`fix/*`、`refactor/*`ブランチで作業する
+- 必ずPull Requestを経由して`develop`または`main`にマージする
+- フィーチャーブランチの命名規則:
+  - `feature/タスク番号-機能名` (例: `feature/task-4-decimal-precision`)
+  - `fix/issue番号-バグ内容` (例: `fix/123-calculation-error`)
+
+### 7.4 プルリクエスト
 - 変更内容を明確に説明する
 - レビューしやすい単位に分割する
 - テストが通ることを確認する
