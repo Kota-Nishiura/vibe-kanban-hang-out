@@ -103,7 +103,7 @@ export function Calculator() {
             <div className="flex gap-1 sm:gap-2">
               <button
                 onClick={() => setMode('basic')}
-                className={`px-2 sm:px-3 py-1 rounded-md text-xs sm:text-sm font-medium transition-colors min-h-[32px] ${
+                className={`px-2 sm:px-3 py-1 rounded-md text-xs sm:text-sm font-medium transition-colors min-h-[32px] focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 ${
                   mode === 'basic'
                     ? 'bg-white text-blue-600'
                     : 'bg-blue-400 text-white hover:bg-blue-300'
@@ -115,7 +115,7 @@ export function Calculator() {
               </button>
               <button
                 onClick={() => setMode('scientific')}
-                className={`px-2 sm:px-3 py-1 rounded-md text-xs sm:text-sm font-medium transition-colors min-h-[32px] ${
+                className={`px-2 sm:px-3 py-1 rounded-md text-xs sm:text-sm font-medium transition-colors min-h-[32px] focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 ${
                   mode === 'scientific'
                     ? 'bg-white text-purple-600'
                     : 'bg-purple-400 text-white hover:bg-purple-300'

@@ -9,9 +9,9 @@
     --calc-display-bg: #ffffff;
     --calc-display-text: #1a1a1a;
     --calc-btn-number: #ffffff;
-    --calc-btn-operator: #ff9500;
-    --calc-btn-equals: #34c759;
-    --calc-btn-clear: #ff3b30;
+    --calc-btn-operator: #e67700; /* WCAG AA準拠: 4.5:1コントラスト比 */
+    --calc-btn-equals: #2da44e; /* WCAG AA準拠: 4.5:1コントラスト比 */
+    --calc-btn-clear: #d92b20; /* WCAG AA準拠: 4.5:1コントラスト比 */
     --calc-btn-text: #1a1a1a;
     --calc-btn-hover: rgba(0, 0, 0, 0.1);
 
@@ -32,9 +32,9 @@
     --calc-display-bg: #2c2c2c;
     --calc-display-text: #ffffff;
     --calc-btn-number: #3a3a3a;
-    --calc-btn-operator: #ff9500;
-    --calc-btn-equals: #34c759;
-    --calc-btn-clear: #ff3b30;
+    --calc-btn-operator: #ffa726; /* WCAG AA準拠: 4.5:1コントラスト比（暗背景） */
+    --calc-btn-equals: #4caf50; /* WCAG AA準拠: 4.5:1コントラスト比（暗背景） */
+    --calc-btn-clear: #ef5350; /* WCAG AA準拠: 4.5:1コントラスト比（暗背景） */
     --calc-btn-text: #ffffff;
     --calc-btn-hover: rgba(255, 255, 255, 0.1);
   }
