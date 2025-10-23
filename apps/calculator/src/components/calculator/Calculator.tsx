@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { Display } from './Display';
 import { ButtonGrid } from './ButtonGrid';
 import { useCalculatorStore } from '../../store';
@@ -22,35 +22,38 @@ export function Calculator() {
     calculate,
   } = useCalculatorStore();
 
-  const handleButtonClick = (value: string) => {
-    // 数字入力
-    if (/^[0-9]$/.test(value)) {
-      inputDigit(value);
-      return;
-    }
+  const handleButtonClick = useCallback(
+    (value: string) => {
+      // 数字入力
+      if (/^[0-9]$/.test(value)) {
+        inputDigit(value);
+        return;
+      }
 
-    // 演算子入力
-    if (['+', '−', '×', '÷', '%'].includes(value)) {
-      inputOperator(value as any);
-      return;
-    }
+      // 演算子入力
+      if (['+', '−', '×', '÷', '%'].includes(value)) {
+        inputOperator(value as any);
+        return;
+      }
 
-    // その他のボタン
-    switch (value) {
-      case '.':
-        inputDecimal();
-        break;
-      case 'C':
-        clear();
-        break;
-      case '⌫':
-        backspace();
-        break;
-      case '=':
-        calculate();
-        break;
-    }
-  };
+      // その他のボタン
+      switch (value) {
+        case '.':
+          inputDecimal();
+          break;
+        case 'C':
+          clear();
+          break;
+        case '⌫':
+          backspace();
+          break;
+        case '=':
+          calculate();
+          break;
+      }
+    },
+    [inputDigit, inputOperator, inputDecimal, clear, backspace, calculate]
+  );
 
   // キーボードナビゲーション対応
   useEffect(() => {
