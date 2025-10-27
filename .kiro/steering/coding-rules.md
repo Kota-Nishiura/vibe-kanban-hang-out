@@ -151,3 +151,38 @@ describe('PomodoroTimer', () => {
 - TypeScriptの型安全性を最優先
 - 関数は50行以内に収める
 - カバレッジ80%以上を維持
+
+## タスク完了時の自動化ルール
+
+### 必須実行事項（MUST）
+タスクを完了状態にする際は、以下を自動実行する：
+
+1. **適切なブランチでの作業確認**
+   - mainブランチでの作業は禁止
+   - タスク専用ブランチ（feat/pomodoro-*）で実装
+
+2. **コミット・プッシュ・PR作成の自動実行**
+   ```bash
+   # 変更をステージング
+   git add .
+   
+   # 規約に従ったコミット
+   git commit -m "feat(<scope>): <task-title>"
+   
+   # リモートにプッシュ  
+   git push origin <current-branch>
+   
+   # PR自動作成
+   gh pr create --title "feat(<scope>): <task-title>" --body "<task-details>"
+   ```
+
+3. **PR作成時の品質チェック**
+   - TypeScript型チェック通過確認
+   - ESLintエラーゼロ確認
+   - 実装要件との整合性確認
+
+### タスク完了の定義
+- 要件で指定された機能がすべて実装済み
+- TypeScript型エラーなし
+- 基本的な動作確認完了
+- 適切な日本語コメント追加済み

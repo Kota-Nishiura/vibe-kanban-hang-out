@@ -8,7 +8,7 @@
   - 基本的なディレクトリ構造の作成（src/components, src/stores, src/types, src/utils）
   - _要件: 8.1, 8.2_
 
-- [ ] 2. 型定義とデータモデルの実装
+- [x] 2. 型定義とデータモデルの実装
 
   - src/types/index.ts に TimerState, TimerSettings, Session, SessionType インターフェースを定義
   - バリデーション関数の実装（設定値の範囲チェック）
