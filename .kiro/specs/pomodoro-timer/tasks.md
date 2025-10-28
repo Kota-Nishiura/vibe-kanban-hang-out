@@ -14,7 +14,7 @@
   - バリデーション関数の実装（設定値の範囲チェック）
   - _要件: 4.5, 5.1_
 
-- [ ] 3. Zustand ストアの基本実装
+- [x] 3. Zustand ストアの基本実装
 
   - src/stores/pomodoroStore.ts にメインストアを作成
   - 初期状態の定義と basic actions（startTimer, pauseTimer, resetTimer）の実装

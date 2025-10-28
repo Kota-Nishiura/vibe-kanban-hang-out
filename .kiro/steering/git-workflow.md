@@ -109,6 +109,7 @@ docs(readme): add installation and usage instructions
 4. **PR自動作成**
    ```bash
    gh pr create --title "feat(<scope>): <task-title>" \
+                --base develop \
                 --body "## 概要\n<task-description>\n\n## 実装内容\n- <implementation-details>\n\n## テスト\n- TypeScript型チェック通過\n- 実装要件の確認完了"
    ```
 
@@ -135,5 +136,15 @@ docs(readme): add installation and usage instructions
 ### 注意事項
 - **1タスク = 1PR**の原則を厳守
 - タスクが複数のサブタスクを持つ場合も、親タスク完了時に1つのPRを作成
+- **PRのベースブランチは必ずdevelop**を指定（`--base develop`オプション必須）
 - PR作成後は自動でタスクステータスを`completed`に更新
 - GitHub CLIが必要（`gh`コマンド）
+
+### ベースブランチ指定の重要性
+```bash
+# ❌ 悪い例：ベースブランチ未指定（mainになってしまう）
+gh pr create --title "feat(timer): implement core functionality"
+
+# ✅ 良い例：developブランチを明示的に指定
+gh pr create --title "feat(timer): implement core functionality" --base develop
+```
