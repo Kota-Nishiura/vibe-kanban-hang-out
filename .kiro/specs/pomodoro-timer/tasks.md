@@ -21,7 +21,7 @@
   - localStorage 連携の基本機能（loadData, saveData）
   - _要件: 1.1, 2.1, 3.1, 5.5_
 
-- [ ] 4. 基本タイマー機能の実装
+- [x] 4. 基本タイマー機能の実装
 
   - src/hooks/useTimer.ts カスタムフックの作成
   - 高精度タイマーロジック（setInterval + 時刻補正）の実装
