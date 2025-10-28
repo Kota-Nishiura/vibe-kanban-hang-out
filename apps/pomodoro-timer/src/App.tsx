@@ -1,13 +1,12 @@
 import { useEffect } from 'react';
 import { useTimer } from './hooks/useTimer';
 import { initializePomodoroStore } from './stores/pomodoroStore';
+import { TimerDisplay } from './components';
 import './App.css';
 
 function App() {
   const {
     timer,
-    formattedTime,
-    sessionTypeName,
     progress,
     canStart,
     canPause,
@@ -29,25 +28,14 @@ function App() {
           ポモドーロタイマー
         </h1>
         
-        {/* セッション情報 */}
-        <div className="text-center mb-6">
-          <div className="text-lg text-gray-600 mb-2">
-            {sessionTypeName} - セッション {timer.currentSession}
-          </div>
-          
-          {/* タイマー表示 */}
-          <div className="text-6xl font-mono font-bold text-gray-800 mb-4">
-            {formattedTime}
-          </div>
-          
-          {/* プログレスバー */}
-          <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
-            <div 
-              className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-              style={{ width: `${progress * 100}%` }}
-            />
-          </div>
-        </div>
+        {/* タイマー表示コンポーネント */}
+        <TimerDisplay
+          timeLeft={timer.timeLeft}
+          isRunning={timer.isRunning}
+          sessionType={timer.sessionType}
+          currentSession={timer.currentSession}
+          progress={progress}
+        />
 
         {/* コントロールボタン */}
         <div className="flex justify-center space-x-4 mb-6">

@@ -1,4 +1,4 @@
 // コンポーネントのエクスポート用インデックスファイル
 // 今後追加されるコンポーネントをここからエクスポートします
 
-export {};
+export { TimerDisplay } from './TimerDisplay';
