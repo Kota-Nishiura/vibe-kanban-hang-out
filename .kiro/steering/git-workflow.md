@@ -148,3 +148,94 @@ gh pr create --title "feat(timer): implement core functionality"
 # ✅ 良い例：developブランチを明示的に指定
 gh pr create --title "feat(timer): implement core functionality" --base develop
 ```
+
+## Git コマンド実行前の必須確認事項
+
+### MUST（絶対実行）
+以下のコマンドを実行する前に、必ず確認する：
+
+#### 1. プッシュコマンド実行前の検証
+```bash
+# ❌ 絶対禁止パターンの検出
+git push origin main     # → STOP: mainへの直接プッシュ禁止
+git push origin develop  # → STOP: developへの直接プッシュ禁止
+
+# ✅ 許可されるパターンの確認
+git push origin feat/*   # → OK: 機能ブランチへのプッシュ
+git push origin fix/*    # → OK: バグ修正ブランチへのプッシュ
+```
+
+#### 2. 現在のブランチ確認
+```bash
+git branch  # 現在のブランチを必ず確認
+git status  # 現在の状態確認
+```
+
+### 禁止コマンドの明示的リスト
+- `git push origin main`
+- `git push origin develop`  
+- `git commit -m "..." && git push origin main`
+- `git commit -m "..." && git push origin develop`
+
+## タスク開始時の必須手順（MUST）
+
+### Step 1: ブランチ状態確認
+```bash
+git status           # 現在の状態確認
+git branch          # 現在のブランチ確認
+```
+
+### Step 2: 適切なブランチへの移動/作成
+```bash
+# mainまたはdevelopブランチにいる場合は必ず機能ブランチを作成
+if [現在のブランチ == main OR develop]; then
+    git checkout -b feat/pomodoro-<task-name>
+fi
+```
+
+### Step 3: プッシュ先の事前確認
+```bash
+# プッシュ前に必ず確認
+echo "プッシュ先: $(git branch --show-current)"
+# feat/* または fix/* 以外の場合は停止
+```
+
+## 自動検証ルール
+
+### Git Push の事前検証
+以下の条件をすべて満たす場合のみプッシュを実行：
+
+1. **ブランチ名検証**
+   - プッシュ先が `feat/*`, `fix/*`, `docs/*`, `style/*`, `refactor/*`, `perf/*`, `test/*`, `build/*`, `ci/*`, `chore/*` のいずれかである
+   - `main` または `develop` ではない
+
+2. **コマンド形式検証**
+   ```bash
+   # 許可される形式
+   git push origin feat/pomodoro-timer-controls
+   git push origin fix/timer-accuracy-issue
+   
+   # 禁止される形式（自動的に停止）
+   git push origin main
+   git push origin develop
+   ```
+
+### エラーメッセージ
+禁止されたコマンドを検出した場合：
+```
+❌ ERROR: main/developブランチへの直接プッシュは禁止されています
+✅ 正しい手順:
+1. git checkout -b feat/your-feature-name
+2. git push origin feat/your-feature-name
+3. PRを作成してレビューを依頼
+```
+
+## Git操作前のチェックリスト（必須）
+
+### プッシュ前の確認事項
+- [ ] 現在のブランチは機能ブランチ（feat/*, fix/*など）である
+- [ ] プッシュ先は main/develop ではない
+- [ ] コミットメッセージは規約に従っている
+- [ ] TypeScript型チェックが通っている
+
+### すべてにチェックが入った場合のみプッシュを実行

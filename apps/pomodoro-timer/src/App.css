@@ -1,42 +1,29 @@
+/* ポモドーロタイマーアプリ用のカスタムスタイル */
+
+/* アプリ全体のレイアウト調整 */
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* タイマーカードのシャドウアニメーション */
+.timer-card {
+  transition: box-shadow 0.3s ease-in-out;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.timer-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* 実行中のタイマーカードの強調表示 */
+.timer-card.running {
+  box-shadow: 0 0 0 2px #3b82f6, 0 20px 25px -5px rgba(59, 130, 246, 0.2);
 }
 
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+/* デバッグ情報の表示調整 */
+.debug-info {
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
 }
