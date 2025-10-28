@@ -28,7 +28,7 @@
   - タイマー状態の管理とストアとの連携
   - _要件: 1.1, 1.4, 1.5_
 
-- [ ] 5. TimerDisplay コンポーネントの実装
+- [x] 5. TimerDisplay コンポーネントの実装
 
   - src/components/TimerDisplay.tsx の作成
   - 時間表示のフォーマット（MM:SS）とスタイリング
