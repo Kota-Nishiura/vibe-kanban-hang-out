@@ -172,8 +172,8 @@ describe('PomodoroTimer', () => {
    # リモートにプッシュ  
    git push origin <current-branch>
    
-   # PR自動作成
-   gh pr create --title "feat(<scope>): <task-title>" --body "<task-details>"
+   # PR自動作成（必ずdevelopブランチをベースに指定）
+   gh pr create --title "feat(<scope>): <task-title>" --base develop --body "<task-details>"
    ```
 
 3. **PR作成時の品質チェック**
