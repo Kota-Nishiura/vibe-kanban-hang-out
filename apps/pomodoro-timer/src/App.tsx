@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useTimer } from './hooks/useTimer';
 import { initializePomodoroStore } from './stores/pomodoroStore';
-import { TimerDisplay } from './components';
+import { TimerDisplay, TimerControls } from './components';
 import './App.css';
 
 function App() {
@@ -37,44 +37,16 @@ function App() {
           progress={progress}
         />
 
-        {/* コントロールボタン */}
-        <div className="flex justify-center space-x-4 mb-6">
-          <button
-            onClick={startTimer}
-            disabled={!canStart}
-            className={`px-6 py-2 rounded-lg font-semibold ${
-              canStart
-                ? 'bg-green-500 hover:bg-green-600 text-white'
-                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-            }`}
-          >
-            {timer.isPaused ? '再開' : '開始'}
-          </button>
-          
-          <button
-            onClick={pauseTimer}
-            disabled={!canPause}
-            className={`px-6 py-2 rounded-lg font-semibold ${
-              canPause
-                ? 'bg-yellow-500 hover:bg-yellow-600 text-white'
-                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-            }`}
-          >
-            一時停止
-          </button>
-          
-          <button
-            onClick={resetTimer}
-            disabled={!canReset}
-            className={`px-6 py-2 rounded-lg font-semibold ${
-              canReset
-                ? 'bg-red-500 hover:bg-red-600 text-white'
-                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-            }`}
-          >
-            リセット
-          </button>
-        </div>
+        {/* タイマーコントロール */}
+        <TimerControls
+          onStart={startTimer}
+          onPause={pauseTimer}
+          onReset={resetTimer}
+          isPaused={timer.isPaused}
+          canStart={canStart}
+          canPause={canPause}
+          canReset={canReset}
+        />
 
         {/* 状態表示（デバッグ用） */}
         {import.meta.env.DEV && (

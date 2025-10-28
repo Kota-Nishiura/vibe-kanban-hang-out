@@ -36,7 +36,7 @@
   - 円形プログレスバーまたはシンプルな進捗表示
   - _要件: 1.4_
 
-- [ ] 6. TimerControls コンポーネントの実装
+- [x] 6. TimerControls コンポーネントの実装
 
   - src/components/TimerControls.tsx の作成
   - 開始・一時停止・リセットボタンの実装
