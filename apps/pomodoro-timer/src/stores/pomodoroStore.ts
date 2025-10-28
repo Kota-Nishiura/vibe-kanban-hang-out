@@ -10,18 +10,9 @@ import {
   DEFAULT_TIMER_SETTINGS,
   validateTimerSettings
 } from '../types';
+import { getNotificationManager, type NotificationSettings } from '../utils/notifications';
 
-/**
- * 通知設定のインターフェース
- */
-interface NotificationSettings {
-  /** 音声通知の有効/無効 */
-  sound: boolean;
-  /** ブラウザ通知の有効/無効 */
-  browser: boolean;
-  /** 音量設定（0.0-1.0） */
-  volume: number;
-}
+// NotificationSettingsは utils/notifications.ts からインポート
 
 /**
  * Zustandストアの状態インターフェース
@@ -39,6 +30,10 @@ interface PomodoroStore {
   notifications: NotificationSettings;
   /** データ読み込み完了フラグ */
   isDataLoaded: boolean;
+  /** セッション完了通知の表示状態 */
+  showSessionNotification: boolean;
+  /** 完了したセッションタイプ（通知用） */
+  completedSessionType: SessionType | null;
 
   // === 基本アクション ===
   /** タイマー開始（要件1.1） */
@@ -67,6 +62,12 @@ interface PomodoroStore {
   // === 通知設定 ===
   /** 通知設定更新 */
   updateNotifications: (notifications: Partial<NotificationSettings>) => void;
+
+  // === セッション完了通知 ===
+  /** セッション完了通知を表示 */
+  showCompletionNotification: (sessionType: SessionType) => void;
+  /** セッション完了通知を非表示 */
+  hideCompletionNotification: () => void;
 }
 
 /**
@@ -164,6 +165,8 @@ export const usePomodoroStore = create<PomodoroStore>((set, get) => ({
   sessions: [],
   notifications: { ...DEFAULT_NOTIFICATION_SETTINGS },
   isDataLoaded: false,
+  showSessionNotification: false,
+  completedSessionType: null,
 
   // === 基本アクション ===
   
@@ -279,11 +282,12 @@ export const usePomodoroStore = create<PomodoroStore>((set, get) => ({
   /**
    * セッション完了記録
    * 要件5.1: 作業セッションが完了したとき、システムはタイムスタンプ付きでセッションを記録する
+   * 要件1.2, 1.3: 自動セッション切り替えとサイクル管理
    */
   completeSession: () => {
     set((state) => {
       const now = new Date();
-      const { timer, settings } = state;
+      const { timer, settings, notifications } = state;
       
       // 完了したセッションを記録
       const completedSession: Session = {
@@ -321,12 +325,20 @@ export const usePomodoroStore = create<PomodoroStore>((set, get) => ({
       const newState = {
         ...state,
         sessions: newSessions,
-        timer: newTimer
+        timer: newTimer,
+        showSessionNotification: true,
+        completedSessionType: timer.sessionType
       };
       
       // データを保存
       saveToStorage(STORAGE_KEYS.SESSIONS, newSessions);
       saveToStorage(STORAGE_KEYS.TIMER_STATE, newTimer);
+      
+      // 通知を送信（非同期）
+      const notificationManager = getNotificationManager(notifications);
+      notificationManager.notifySessionComplete(timer.sessionType).catch(error => {
+        console.error('セッション完了通知の送信に失敗しました:', error);
+      });
       
       return newState;
     });
@@ -391,8 +403,35 @@ export const usePomodoroStore = create<PomodoroStore>((set, get) => ({
       
       saveToStorage(STORAGE_KEYS.NOTIFICATIONS, updatedNotifications);
       
+      // 通知マネージャーの設定も更新
+      getNotificationManager(updatedNotifications);
+      
       return newState;
     });
+  },
+
+  // === セッション完了通知 ===
+  
+  /**
+   * セッション完了通知を表示
+   */
+  showCompletionNotification: (sessionType: SessionType) => {
+    set((state) => ({
+      ...state,
+      showSessionNotification: true,
+      completedSessionType: sessionType
+    }));
+  },
+
+  /**
+   * セッション完了通知を非表示
+   */
+  hideCompletionNotification: () => {
+    set((state) => ({
+      ...state,
+      showSessionNotification: false,
+      completedSessionType: null
+    }));
   }
 }));
 

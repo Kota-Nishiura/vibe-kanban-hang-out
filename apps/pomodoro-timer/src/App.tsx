@@ -1,8 +1,14 @@
 import { useEffect } from 'react';
 import { useTimer } from './hooks/useTimer';
-import { initializePomodoroStore } from './stores/pomodoroStore';
-import { TimerDisplay, TimerControls } from './components';
+import { initializePomodoroStore, usePomodoroStore } from './stores/pomodoroStore';
+import { TimerDisplay, TimerControls, SessionNotification } from './components';
+import { initializeNotifications } from './utils/notifications';
 import './App.css';
+
+// 開発環境でのテスト関数をインポート
+if (import.meta.env.DEV) {
+  import('./test-session-completion');
+}
 
 function App() {
   const {
@@ -13,13 +19,54 @@ function App() {
     canReset,
     startTimer,
     pauseTimer,
-    resetTimer
+    resetTimer,
+    showSessionNotification,
+    completedSessionType,
+    hideCompletionNotification
   } = useTimer();
+
+  // 通知設定を取得
+  const { notifications } = usePomodoroStore();
 
   // アプリ初期化時にストアデータを読み込み
   useEffect(() => {
     initializePomodoroStore();
   }, []);
+
+  // 通知システムの初期化（ユーザーインタラクション後）
+  useEffect(() => {
+    const initNotifications = async () => {
+      try {
+        await initializeNotifications(notifications);
+      } catch (error) {
+        console.error('通知システムの初期化に失敗しました:', error);
+      }
+    };
+
+    // 最初のユーザーインタラクション時に通知システムを初期化
+    const handleFirstInteraction = () => {
+      initNotifications();
+      // イベントリスナーを削除（一度だけ実行）
+      document.removeEventListener('click', handleFirstInteraction);
+      document.removeEventListener('keydown', handleFirstInteraction);
+    };
+
+    document.addEventListener('click', handleFirstInteraction);
+    document.addEventListener('keydown', handleFirstInteraction);
+
+    return () => {
+      document.removeEventListener('click', handleFirstInteraction);
+      document.removeEventListener('keydown', handleFirstInteraction);
+    };
+  }, [notifications]);
+
+  /**
+   * 次のセッションを開始する関数
+   */
+  const handleStartNextSession = () => {
+    hideCompletionNotification();
+    startTimer();
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
@@ -76,11 +123,22 @@ function App() {
                 <div>進捗: {Math.round(progress * 100)}%</div>
                 <div>セッションタイプ: {timer.sessionType}</div>
                 <div>現在のセッション: {timer.currentSession}</div>
+                <div>通知表示: {showSessionNotification ? 'はい' : 'いいえ'}</div>
+                <div>完了セッション: {completedSessionType || 'なし'}</div>
               </div>
             </details>
           </footer>
         )}
       </div>
+
+      {/* セッション完了通知モーダル */}
+      <SessionNotification
+        sessionType={completedSessionType}
+        nextSessionType={timer.sessionType}
+        onClose={hideCompletionNotification}
+        onStartNext={handleStartNextSession}
+        isVisible={showSessionNotification}
+      />
     </div>
   );
 }
