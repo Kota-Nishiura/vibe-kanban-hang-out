@@ -1,4 +1,10 @@
 // ユーティリティ関数のエクスポート用インデックスファイル
-// 今後追加されるユーティリティ関数をここからエクスポートします
 
-export {};
+// 通知システム
+export {
+  NotificationManager,
+  getNotificationManager,
+  initializeNotifications,
+  type NotificationSoundType,
+  type NotificationSettings
+} from './notifications';

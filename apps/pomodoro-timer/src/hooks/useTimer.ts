@@ -20,7 +20,10 @@ export const useTimer = () => {
     startTimer,
     pauseTimer,
     resetTimer,
-    completeSession
+    completeSession,
+    showSessionNotification,
+    completedSessionType,
+    hideCompletionNotification
   } = usePomodoroStore();
 
   // タイマー開始時刻を記録するref
@@ -252,6 +255,11 @@ export const useTimer = () => {
     startTimer: handleStartTimer,
     pauseTimer: handlePauseTimer,
     resetTimer: handleResetTimer,
+    
+    // セッション完了通知関連
+    showSessionNotification,
+    completedSessionType,
+    hideCompletionNotification,
     
     // ユーティリティ関数
     formatTime,
