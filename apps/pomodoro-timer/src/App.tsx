@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTimer } from './hooks/useTimer';
 import { initializePomodoroStore, usePomodoroStore } from './stores/pomodoroStore';
-import { TimerDisplay, TimerControls, SessionNotification } from './components';
+import { TimerDisplay, TimerControls, SessionNotification, SettingsPanel } from './components';
 import { initializeNotifications } from './utils/notifications';
 import './App.css';
 
@@ -27,6 +27,9 @@ function App() {
 
   // 通知設定を取得
   const { notifications } = usePomodoroStore();
+
+  // 設定パネルの表示状態管理
+  const [showSettings, setShowSettings] = useState(false);
 
   // アプリ初期化時にストアデータを読み込み
   useEffect(() => {
@@ -68,6 +71,20 @@ function App() {
     startTimer();
   };
 
+  /**
+   * 設定パネルを開く関数
+   */
+  const handleOpenSettings = () => {
+    setShowSettings(true);
+  };
+
+  /**
+   * 設定パネルを閉じる関数
+   */
+  const handleCloseSettings = () => {
+    setShowSettings(false);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
       <div 
@@ -78,12 +95,29 @@ function App() {
       >
         {/* アプリヘッダー */}
         <header className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">
-            ポモドーロタイマー
-          </h1>
-          <p className="text-sm text-gray-600">
-            集中力を高める時間管理テクニック
-          </p>
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-8"></div> {/* 左側のスペーサー */}
+            <div className="text-center">
+              <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                ポモドーロタイマー
+              </h1>
+              <p className="text-sm text-gray-600">
+                集中力を高める時間管理テクニック
+              </p>
+            </div>
+            {/* 設定ボタン */}
+            <button
+              onClick={handleOpenSettings}
+              className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
+              aria-label="設定を開く"
+              title="設定"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </button>
+          </div>
         </header>
         
         {/* メインタイマーセクション */}
@@ -138,6 +172,12 @@ function App() {
         onClose={hideCompletionNotification}
         onStartNext={handleStartNextSession}
         isVisible={showSessionNotification}
+      />
+
+      {/* 設定パネル */}
+      <SettingsPanel
+        isVisible={showSettings}
+        onClose={handleCloseSettings}
       />
     </div>
   );
