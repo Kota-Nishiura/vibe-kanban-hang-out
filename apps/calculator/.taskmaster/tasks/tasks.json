@@ -413,7 +413,7 @@
         "dependencies": [
           "4"
         ],
-        "status": "pending",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -421,9 +421,10 @@
             "description": "useEffectフックを使用してkeydownイベントリスナーを実装し、電卓操作に必要なキーマッピングを設定する",
             "dependencies": [],
             "details": "useEffectでdocument.addEventListenerを設定し、数字キー(0-9)、演算子キー(+,-,*,/)、Enter(=)、Escape(AC)、Backspace(DEL)のマッピングを実装。イベントハンドラー内でkeyCode判定とswitch文による分岐処理を行い、対応するCalculatorの関数を呼び出す構造とする。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "各キーの押下で正しい電卓操作が実行されることを確認。数字入力、演算子入力、計算実行、クリア操作の動作テスト。",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2025-10-22T10:17:19.706Z"
           },
           {
             "id": 2,
@@ -443,9 +444,10 @@
             "description": "すべてのボタンと電卓コンポーネントに適切なaria-label、role属性を設定し、スクリーンリーダー対応を実装する",
             "dependencies": [],
             "details": "各ボタンにaria-labelで機能説明を設定（例：「数字の1」「足し算」「イコール」）。電卓本体にrole=\"application\"とaria-label=\"電卓」を設定。ディスプレイエリアにaria-live=\"polite\"で計算結果の読み上げを実装。role=\"button\"とaria-pressed状態も必要に応じて設定。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "スクリーンリーダー（NVDA、JAWS等）での読み上げ内容確認。ARIA属性が適切に設定されていることをaxe-coreで検証。",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2025-10-22T10:17:19.710Z"
           },
           {
             "id": 4,
@@ -453,9 +455,10 @@
             "description": "WCAG 2.1 AA基準の4.5:1以上のカラーコントラスト比を確保し、視覚的アクセシビリティを向上させる",
             "dependencies": [],
             "details": "テキストと背景色のコントラスト比を4.5:1以上に設定。WebAIMのContrast Checkerでカラー値を検証し、ライトモード・ダークモード両方で基準を満たす配色を実装。ボタンのホバー状態、フォーカス状態でもコントラスト比を維持。CSS custom propertiesで管理し、テーマ切り替え時も基準を保持。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "WebAIM Contrast CheckerやLighthouseでコントラスト比測定。各状態（通常、ホバー、フォーカス）でのカラー検証。",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2025-10-22T10:17:19.712Z"
           },
           {
             "id": 5,
@@ -465,9 +468,10 @@
               2
             ],
             "details": ":focus-visible擬似クラスを使用してキーボードフォーカス時のアウトライン表示を実装。マウスクリック時はフォーカスリングを非表示にし、Tabキー移動時のみ視覚的インジケーターを表示。outline-color、outline-width、outline-offsetでアクセシブルなフォーカスリングをデザイン。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "キーボードナビゲーション時のフォーカスリング表示確認。マウス操作時の非表示動作テスト。フォーカスインジケーターの視認性確認。",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2025-10-22T10:17:19.720Z"
           },
           {
             "id": 6,
@@ -477,14 +481,16 @@
               3
             ],
             "details": "計算結果表示エリアにaria-live=\"polite\"を設定し、計算完了時に結果を自動読み上げ。操作ボタン押下時の音声フィードバック機能をaria-labelとuseAnnouncerフックで実装。エラー状態（ゼロ除算等）はaria-live=\"assertive\"で即座に通知。読み上げテキストは自然な日本語表現に調整。",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "スクリーンリーダーでの操作フロー確認。計算結果の読み上げタイミングテスト。エラー通知の即座性確認。音声ガイダンスの内容検証。",
-            "parentId": "undefined"
+            "parentId": "undefined",
+            "updatedAt": "2025-10-22T10:17:19.722Z"
           }
         ],
         "complexity": 7,
         "recommendedSubtasks": 6,
-        "expansionPrompt": "アクセシビリティ機能を包括的に実装するため、キーボードイベント処理、キーマッピング実装、フォーカス管理、ARIA属性設定、カラーコントラスト対応、スクリーンリーダー対応の各サブタスクに分割してください。"
+        "expansionPrompt": "アクセシビリティ機能を包括的に実装するため、キーボードイベント処理、キーマッピング実装、フォーカス管理、ARIA属性設定、カラーコントラスト対応、スクリーンリーダー対応の各サブタスクに分割してください。",
+        "updatedAt": "2025-10-22T10:17:28.183Z"
       },
       {
         "id": "6",
@@ -949,9 +955,9 @@
     ],
     "metadata": {
       "version": "1.0.0",
-      "lastModified": "2025-10-22T10:09:35.277Z",
+      "lastModified": "2025-10-22T10:17:28.184Z",
       "taskCount": 10,
-      "completedCount": 4,
+      "completedCount": 5,
       "tags": [
         "master"
       ]
